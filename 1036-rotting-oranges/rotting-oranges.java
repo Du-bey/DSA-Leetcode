@@ -32,7 +32,6 @@ class Solution {
                     && grid[newr][newc] == 1 && !vis[newr][newc]){
                         q.add(new Triplet(time +1, newr, newc));
                         vis[newr][newc] = true;
-                        ans = time;
                 }
             }
 
