@@ -40,7 +40,6 @@ class Solution {
                     vis[it] = true;
                 }
                 else if(vis[it] && it != p){
-                    System.out.println(it +" " +node + " " +p );
                     extraEdge++;
                 }
             }
