@@ -4,26 +4,23 @@ class Solution {
         int n2 = t.length();
         char[] c1 = s.toCharArray();
         char[] c2 = t.toCharArray();
-        int[][] dp = new int[n1+1][n2+1];
-        for(int i =0;i<=n1;i++){
-            dp[i][0] = i+1;
-        }
+        int[] prev = new int[n2+1];
+        int[] cur = new int[n2+1];
         for(int i =0;i<=n2;i++){
-            dp[0][i] = i+1;
+            prev[i] = i;
         }
         for(int i =1;i<=n1;i++){
+            cur[0] = i;
             for(int j =1;j<=n2;j++){
                 if(c1[i-1] == c2[j-1]){
-                    dp[i][j] = dp[i-1][j-1] ;
+                    cur[j] = prev[j-1] ;
                 }
                 else{
-                    int a = 1 + dp[i][j-1];
-                    int b = 1 + dp[i-1][j];
-                    int c = 1 + dp[i-1][j-1];
-                    dp[i][j] = Math.min(a, Math.min(b,c));
+                    cur[j] = 1 + Math.min(cur[j-1], Math.min(prev[j],prev[j-1]));
                 }
             }
+            prev = cur.clone();
         }
-        return dp[n1][n2] - 1;
+        return prev[n2];
     }
 }
