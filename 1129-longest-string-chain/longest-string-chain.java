@@ -10,9 +10,7 @@ class Solution {
         for(int i =0;i<n;i++){
             for(int prev = 0;prev < i;prev++){
                 if(checkString(words[i], words[prev])){
-                    //System.out.println(words[i] + " " + words[prev] + " " + dp[i] + " " + dp[prev]);
                     dp[i] = Math.max(dp[i], 1 + dp[prev]);
-                    //System.out.println(words[i] + " " + words[prev] + " " + dp[i] + " " + dp[prev] + " after");
                     max = Math.max(max, dp[i]);
                 }
             }
@@ -39,8 +37,6 @@ class Solution {
                 i++;
             }
         }
-        System.out.println(s + " " + p);
-        System.out.println(j == b);
         return j == b && i == a;
     }
 }
