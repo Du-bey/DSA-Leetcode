@@ -9,6 +9,7 @@ class Solution {
             }
             else if(cnt == 0){
                 ele = num;
+                cnt = 1;
             }
             else{
                 cnt--;
