@@ -1,20 +1,17 @@
 class Solution {
     public boolean canJump(int[] nums) {
         int n = nums.length;
-        int[] t = new int[n];
-        for(int i =0;i<n;i++){
-            int a = nums[i];
-            int z = 0;
-            while(z<a && i+z < n){
-                t[i+z]++;
-                z++;
-            }
-        }
+        int maxi = 0;
         for(int i =0;i<n-1;i++){
-            if(t[i] == 0){
-                return false;
-            }
+            int a = nums[i];
+            maxi = Math.max(maxi, i+a);
+            int z = i + a;
+            System.out.println(maxi + " " + n);
+            if(maxi >= n-1) return true;
+            if(maxi == i) return false;
         }
-        return true;
+        if(maxi >= n-1) return true;
+        
+        return false;
     }
 }
