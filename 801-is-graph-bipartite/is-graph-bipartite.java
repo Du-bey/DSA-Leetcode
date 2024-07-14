@@ -1,34 +1,32 @@
 class Solution {
     public boolean isBipartite(int[][] graph) {
+
         int n = graph.length;
         int[] col = new int[n];
-        boolean[] vis = new boolean[n];
-        for(int i =0;i<n;i++){
-            col[i] = -1;
-        }
+        Arrays.fill(col, -1);
         for(int i =0;i<n;i++){
             if(col[i] == -1){
-                if(check(graph, col, i, n) == false){
-                    return false;
-                }
+                if(check(graph, i, col) == false) return false;
             }
         }
         return true;
     }
 
-    private boolean check(int[][] graph, int[] col, int start, int n){
-        col[start] = 0;
+    public boolean check(int[][] graph, int node, int[] col){
+        col[node] = 0;
         Queue<Integer> q = new LinkedList<>();
-        q.add(start);
+        q.add(node);
         while(!q.isEmpty()){
-            int node = q.peek();
+            int u = q.peek();
             q.remove();
-            for(int it : graph[node]){
-                if(col[it] == -1){
-                    col[it] = 1 - col[node];
-                    q.add(it);
+            for(int v : graph[u]){
+                if(col[v] == -1){
+                    col[v] = 1 - col[u];
+                    q.add(v);
                 }
-                else if(col[it] == col[node]) return false;
+                else if(col[v] == col[u]){
+                    return false;
+                }
             }
         }
         return true;
