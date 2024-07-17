@@ -9,22 +9,17 @@ class Solution {
                 stack.push(i);
             }
             else{
-                if(temperatures[i] < temperatures[stack.peek()]){
-                    ans[i] = stack.peek() - i;
-                    stack.push(i);
+                while(!stack.isEmpty() && temperatures[i] >= temperatures[stack.peek()]){
+                    stack.pop();
+                }
+                if(stack.isEmpty()){
+                    ans[i] = 0;
                 }
                 else{
-                    while(!stack.isEmpty() && temperatures[i] >= temperatures[stack.peek()]){
-                        stack.pop();
-                    }
-                    if(stack.isEmpty()){
-                        ans[i] = 0;
-                    }
-                    else{
-                        ans[i] = stack.peek() - i;
-                    }
-                    stack.push(i);
+                    ans[i] = stack.peek() - i;
                 }
+                stack.push(i);
+                
             }
         }
         return ans;
