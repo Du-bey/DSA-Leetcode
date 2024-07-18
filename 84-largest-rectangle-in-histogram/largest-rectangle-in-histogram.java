@@ -3,41 +3,30 @@ class Solution {
         int n = h.length;
         if(n == 1)
         return h[0];
-        int[] nse = nse(h);
-        int[] pse = pse(h);
         int ans = -1;
-        for(int i =0;i<n;i++){
-            int w = nse[i] - pse[i] - 1;
-            int area = w * h[i];
-            ans = Math.max(ans, area);
-        }
-        return ans;
-    }
-  
-    public int[] pse(int[] h) {
-        int n = h.length;
-        int[] ans = new int[n];
         Stack<Integer> st = new Stack<>();
         for(int i =0;i<n;i++){
-            while(!st.isEmpty() && h[st.peek()] >= h[i]){
-                st.pop();
+            while(!st.isEmpty() && h[i] < h[st.peek()]){
+                int no = h[st.pop()];
+                int next = i;
+                int prev = -1;
+                if(!st.isEmpty()){
+                    prev = st.peek();
+                }
+                int w = next - prev - 1;
+                int a = w * no;
+                ans = Math.max(ans, a);
             }
-            ans[i] = st.isEmpty() ? -1 : st.peek();
             st.push(i);
         }
-        return ans;
-    }
 
-    public int[] nse(int[] h) {
-        int n = h.length;
-        int[] ans = new int[n];
-        Stack<Integer> st = new Stack<>();
-        for(int i =n-1;i>=0;i--){
-            while(!st.isEmpty() && h[st.peek()] > h[i]){
-                st.pop();
-            }
-            ans[i] = st.isEmpty() ? n : st.peek();
-            st.push(i);
+        while(!st.isEmpty()){
+            int no = h[st.pop()];
+            int next = n;
+            int prev = st.isEmpty() ? -1 : st.peek();
+            int w = next - prev - 1;
+            int a = w * no;
+            ans = Math.max(ans, a);
         }
         return ans;
     }
