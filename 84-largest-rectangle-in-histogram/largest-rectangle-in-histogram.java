@@ -10,7 +10,6 @@ class Solution {
             int w = nse[i] - pse[i] - 1;
             int area = w * h[i];
             ans = Math.max(ans, area);
-            System.out.println(nse[i] + " " + pse[i]);
         }
         return ans;
     }
