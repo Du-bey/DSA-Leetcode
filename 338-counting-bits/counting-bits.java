@@ -1,17 +1,11 @@
 class Solution {
     public int[] countBits(int n) {
         int[] ans = new int[n+1];
-        for(int i =0;i<=n;i++){
-            ans[i] = countOne(i);
-        }
-        return ans;
-    }
-
-    public int countOne(int n) {
-        int ans = 0;
-        while(n > 0){
-            ans+= n %2;
-            n /= 2;
+        ans[0] = 0;
+        if(n == 0) return ans;
+        ans[1] = 1;
+        for(int i =2;i<=n;i++){
+            ans[i] = i % 2 == 0 ? ans[i/2] : ans[i/2] + 1;
         }
         return ans;
     }
