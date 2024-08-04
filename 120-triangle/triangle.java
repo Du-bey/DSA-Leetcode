@@ -11,12 +11,11 @@ class Solution {
 
     public int f(int i, int j, List<List<Integer>> t, int n, int[][] dp){
         if(i == n-1) return t.get(i).get(j);
-        int down = Integer.MAX_VALUE;
-        int right = Integer.MAX_VALUE;
         if(dp[i][j] != -1) return dp[i][j];
-        if(i < n-1) down = f(i+1, j, t, n, dp);
-        if(j < n-1) right = f(i+1, j+1, t, n, dp);
+        int down = f(i+1, j, t, n, dp);
+        int right = f(i+1, j+1, t, n, dp);
         dp[i][j] = t.get(i).get(j) + Math.min(down, right);
         return dp[i][j];
+        
     }
 }
