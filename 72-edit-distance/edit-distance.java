@@ -1,26 +1,30 @@
 class Solution {
-    public int minDistance(String s, String t) {
-        int n1 = s.length();
-        int n2 = t.length();
-        char[] c1 = s.toCharArray();
-        char[] c2 = t.toCharArray();
-        int[] prev = new int[n2+1];
-        int[] cur = new int[n2+1];
-        for(int i =0;i<=n2;i++){
-            prev[i] = i;
+    public int minDistance(String w, String t) {
+        int n = w.length();
+        int m = t.length();
+        int[][] dp = new int[n+1][m+1];
+        for(int[] row : dp){
+            Arrays.fill(row, -1);
         }
-        for(int i =1;i<=n1;i++){
-            cur[0] = i;
-            for(int j =1;j<=n2;j++){
-                if(c1[i-1] == c2[j-1]){
-                    cur[j] = prev[j-1] ;
-                }
-                else{
-                    cur[j] = 1 + Math.min(cur[j-1], Math.min(prev[j],prev[j-1]));
-                }
-            }
-            prev = cur.clone();
+        return f(n-1, m-1, w, t, dp);
+    }
+
+    public int f(int i, int j, String w, String t, int[][] dp){
+        if(i < 0) return j+1;
+        if(j < 0) return i+1;
+        
+        if(dp[i][j] != -1) return dp[i][j];
+
+        if(w.charAt(i) == t.charAt(j)){
+            dp[i][j] = f(i-1, j-1, w, t, dp);
         }
-        return prev[n2];
+        else{
+            int in = 1 + f(i, j-1, w, t, dp);
+            int del = 1 + f(i-1, j, w, t, dp);
+            int rep = 1 + f(i-1, j-1, w, t, dp);
+
+            dp[i][j] = Math.min(in, Math.min(del, rep));
+        }
+        return dp[i][j];
     }
 }
