@@ -3,23 +3,24 @@ class Solution {
         int n = arr.length;
         int[] dp = new int[n];
         Arrays.fill(dp, -1);
-        return f(0, n, arr, k, dp);
+        return f(0, k, arr, n, dp);
     }
-    public int f(int i, int n, int[] arr, int k, int[] dp){
-        if (i == n) return 0;
 
-        if (dp[i] != -1) return dp[i];
+    public int f(int i, int k, int[] arr, int n, int[] dp){
+        if(i == n) return 0;
+
+        if(dp[i] != -1) return dp[i];
+        int max = -1;
+        int ans = -1;
         int len = 0;
-        int maxi = Integer.MIN_VALUE;
-        int maxAns = Integer.MIN_VALUE;
-
-        for(int j =i;j< Math.min(i + k, n);j++){
+        for(int j = i;j<Math.min(n, i+k);j++){
             len++;
-            maxi = Math.max(maxi, arr[j]);
-            int ans = (len*maxi) + f(j+1, n, arr, k, dp);
-            maxAns = Math.max(ans, maxAns);
+            max = Math.max(max, arr[j]);
+            int cost = len * max + f(j+1, k, arr, n, dp);
+            ans = Math.max(ans, cost);
         }
-        dp[i] = maxAns;
+
+        dp[i] = ans;
         return dp[i];
     }
 }
