@@ -1,25 +1,29 @@
 class Solution {
-    public int minDistance(String w, String t) {
-        int n = w.length();
+    public int minDistance(String s, String t) {
+        int n = s.length();
         int m = t.length();
-        int[][] dp = new int[n+1][m+1];
-
-        for(int i =0;i<=n;i++){
-            for(int j =0;j<=m;j++){
-                if(i == 0) dp[i][j] = j;
-                else if(j == 0) dp[i][j] = i;
-                else if(w.charAt(i-1) == t.charAt(j-1)){
-                    dp[i][j] = dp[i-1][j-1];
-                }
-                else{
-                    int in = 1 + dp[i][j-1];
-                    int del = 1 + dp[i-1][j];
-                    int rep = 1 + dp[i-1][j-1];
-
-                    dp[i][j] = Math.min(in, Math.min(del, rep));
-                }
-            }
+        int[][] dp = new int[n][m];
+        for(int [] row : dp){
+            Arrays.fill(row, -1);
         }
-        return dp[n][m];
+        return f(n-1, m-1, s, t, dp);
+    }
+
+    public int f(int i, int j, String s, String t, int[][] dp){
+        if(j < 0) return i+1;
+        if(i < 0) return j+1;
+        
+        if(dp[i][j] != -1) return dp[i][j];
+
+        if(s.charAt(i) == t.charAt(j)){
+            dp[i][j] = f(i-1, j-1, s, t, dp);
+        }
+        else{
+            int in = f(i, j-1, s, t, dp);
+            int de = f(i-1, j, s, t, dp);
+            int re = f(i-1, j-1, s, t, dp);
+            dp[i][j] = 1 + Math.min(in, Math.min(de, re));
+        }
+        return dp[i][j];
     }
 }
