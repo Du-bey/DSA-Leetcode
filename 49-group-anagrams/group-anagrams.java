@@ -5,8 +5,8 @@ class Solution {
         if(n == 0) return ans;
         Map<String, List<String>> h = new HashMap<>();
         for(String s : strs){
-            char[] c = s.toCharArray();
-            Arrays.sort(c);
+            char[] c = new char[26];
+            for (char ch : s.toCharArray()) c[ch - 'a']++;
             String t = String.valueOf(c);
             if(h.containsKey(t)){
                 List<String> list = h.get(t);
