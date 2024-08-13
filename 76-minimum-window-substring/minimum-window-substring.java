@@ -1,36 +1,33 @@
 class Solution {
     public String minWindow(String s, String t) {
+        int[] hash = new int[256];
         int n = s.length();
         int m = t.length();
-        int min = Integer.MAX_VALUE;
-        int si = -1;
-        int l =0;
-        int cnt = 0;
-        HashMap<Character, Integer> h = new HashMap<>();
-        for(int i =0;i<m;i++){
-            char c = t.charAt(i);
-            h.put(c, h.getOrDefault(c, 0) + 1);
+        for(int i =0;i<m;i++) {
+            hash[t.charAt(i) - 'A']++;
         }
-        for(int r =0;r <n;r++){
+        int l =0;
+        int r =0;
+        int si = -1;
+        int minLen = Integer.MAX_VALUE;
+        int cnt = 0;
+        while(r < n){
             char c = s.charAt(r);
-            if(h.containsKey(c)){
-                if(h.get(c) > 0){
-                    cnt++;
-                }
-            }
-            h.put(c, h.getOrDefault(c, 0) - 1);
+            if(hash[c - 'A'] > 0) cnt++;
+            hash[c - 'A']--;
             while(cnt == m){
-                if(r-l+1 < min){
-                    min = r-l+1;
+                int len = r - l + 1;
+                if(minLen > len){
+                    minLen = len;
                     si = l;
-                } 
-                char lc = s.charAt(l);
-                h.put(lc, h.get(lc) +1);
-                if(h.get(lc) > 0) cnt--;
+                }
+                char c2 = s.charAt(l);
+                hash[c2 - 'A']++;
+                if(hash[c2 - 'A'] > 0) cnt--;
                 l++;
             }
+            r++;
         }
-
-        return (si == -1) ? "" : s.substring(si, si + min);
+        return (si == -1) ? "" : s.substring(si, si + minLen);
     }
 }
