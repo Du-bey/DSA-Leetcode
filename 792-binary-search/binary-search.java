@@ -7,7 +7,6 @@ class Solution {
     public int search(int[] nums, int l, int r, int t) {
         while(l <= r){
             int m = (l+r)/2;
-            System.out.println(m);
             if(nums[m] == t) return m;
             else if(nums[m] > t){
                 r = m - 1;
