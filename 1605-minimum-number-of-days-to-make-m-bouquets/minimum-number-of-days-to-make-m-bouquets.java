@@ -25,8 +25,6 @@ class Solution {
         return ans;
     }
 
-
-
     public boolean possible(int[] num, int v, int m, int k){
         int cnt = 0;
         int ans = 0;
