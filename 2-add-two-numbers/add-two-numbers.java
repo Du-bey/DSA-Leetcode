@@ -10,46 +10,43 @@
  */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        int carry = 0;
-        ListNode head = new ListNode(0);
-        ListNode temp = head;
-        while(l1 !=null && l2 != null){
-            int val = l1.val + l2.val;
-            System.out.println(l1.val + " " + l2.val);
+        int c = 0;
+        ListNode temp = new ListNode(0);
+        ListNode head = temp;
+        int val = 0;
+        while(l1 != null && l2 != null){
+            val = l1.val + l2.val +c;
+            c = val/10;
+            val = val % 10;
+            ListNode node = new ListNode(val);
+            temp.next = node;
+            temp = node;
             l1 = l1.next;
             l2 = l2.next;
-            if(carry == 1) val++;
-            carry = val/10;
-            val = val % 10;
-            ListNode node = new ListNode(val);
-            head.next = node;
-            head = node;
         }
-        while(l1 !=null){
-            int val = l1.val ;
-            if(carry == 1) val++;
-            carry = val/10;
+        while(l1 != null){
+            val = l1.val + c;
+            c = val/10;
             val = val % 10;
             ListNode node = new ListNode(val);
-            head.next = node;
-            head = node;
+            temp.next = node;
+            temp = node;
             l1 = l1.next;
         }
 
-        while(l2 !=null){
-            int val = l2.val;
-            if(carry == 1) val++;
-            carry = val/10;
+        while(l2 != null){
+            val = l2.val + c;
+            c = val/10;
             val = val % 10;
             ListNode node = new ListNode(val);
-            head.next = node;
-            head = node;
+            temp.next = node;
+            temp = node;
             l2 = l2.next;
         }
-        if(carry == 1){
-            ListNode node = new ListNode(carry);
-            head.next = node;
+        if(c == 1){
+            ListNode node = new ListNode(1);
+            temp.next = node;
         }
-        return temp.next;
+        return head.next;
     }
 }
