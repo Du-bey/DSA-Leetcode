@@ -1,34 +1,24 @@
 class Solution {
-    public int[][] merge(int[][] nums) {
-        Comparator<int[]> customComparator = Comparator.comparingInt(arr -> arr[0]);
-
-        Arrays.sort(nums, customComparator);
-        int n = nums.length;
-        List<List<Integer>> ans = new ArrayList<>();
-
+    public int[][] merge(int[][] in) {
+        int n = in.length;
+        List<int[]> ans = new ArrayList<>();
+        Arrays.sort(in, new Comparator<int[]>() {
+            public int compare(int[] a, int[] b) {
+                return a[0] - b[0];
+            }
+        });
         for(int i =0;i<n;i++){
-            int a = nums[i][0];
-            int b = nums[i][1];
-
-            while(i < n-1 && b >= nums[i+1][0]){
-                if(b < nums[i+1][1]){
-                    b = nums[i+1][1];
+            if(i < n-1 && in[i][1] >= in[i+1][0]){
+                in[i+1][0] = in[i][0];
+                if(in[i][1] >= in[i+1][1]){
+                    in[i+1][1] = in[i][1];
                 }
-                i++;
             }
-            ans.add(Arrays.asList( a, b));
-        }
-
-        int rows = ans.size();
-        int[][] array2D = new int[rows][2];
-
-        for (int i = 0; i < rows; i++) {
-            List<Integer> row = ans.get(i);
-            for (int j = 0; j < 2; j++) {
-                array2D[i][j] = row.get(j);
+            else{
+                ans.add(in[i]);
             }
+            
         }
-        return array2D;
+        return ans.toArray(new int[ans.size()][]);
     }
-
 }
