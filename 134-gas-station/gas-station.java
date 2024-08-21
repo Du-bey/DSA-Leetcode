@@ -14,7 +14,7 @@ class Solution {
             tgas += gas[i] - cost[i];
             if(tgas < 0){
                 tgas = 0;
-                start = (i+1)%n;
+                start = i+1;
             }
         }
         return start;
