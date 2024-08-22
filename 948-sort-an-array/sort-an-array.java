@@ -1,43 +1,29 @@
 class Solution {
     public int[] sortArray(int[] nums) {
         int n = nums.length;
-        f(0, n-1, nums);
-        return nums; 
-    }
-
-    public void f(int l, int h, int[] nums){
-        if(l>=h) return;
-        int mid = (l + h)/2;
-        f(l, mid, nums);
-        f(mid+1, h, nums);
-        merge(nums, l, mid, h);
-    }
-
-    public void merge(int[] nums, int l, int mid, int h){
-        ArrayList<Integer> temp = new ArrayList<>();
-        int left = l;
-        int right = mid+1;
-        int i = 0;
-        while(left <= mid && right <= h){
-            if(nums[left] <= nums[right]){
-                temp.add(nums[left]);
-                left++;
-            }
-            else{
-                temp.add(nums[right]);
-                right++;
-            }
+        int min = nums[0];
+        int max = nums[0];
+        for(int i =1;i<n;i++){
+            min = Math.min(min, nums[i]);
+            max = Math.max(max, nums[i]);
         }
-        while(left <= mid){
-            temp.add(nums[left]);
-            left++;
+        min = Math.abs(min);
+        max = Math.abs(max);
+        int flen = max + min + 1;
+        int[] freq = new int[flen];
+        for(int i = 0;i<n;i++){
+            freq[nums[i] + min]++;
         }
-        while(right <= h){
-            temp.add(nums[right]);
-            right++;
+        for(int i=1;i<flen;i++){
+            freq[i] += freq[i-1];
         }
-        for(int id =l;id<=h;id++){
-            nums[id] = temp.get(id-l);
+        int[] ans = new int[n];
+        for(int i=n-1;i>=0;i--){
+            int x = nums[i];
+            int pos = freq[nums[i] + min] - 1;
+            freq[nums[i] + min]--;
+            ans[pos] = nums[i];
         }
+        return ans;
     }
 }
