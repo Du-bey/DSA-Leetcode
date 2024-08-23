@@ -2,33 +2,55 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class Solution {
-    public String fractionAddition(String expression) {
-        int numerator = 0, denominator = 1;
-        
-        Pattern pattern = Pattern.compile("([+-]?\\d+)/(\\d+)");
-        Matcher matcher = pattern.matcher(expression);
-        
-        while (matcher.find()) {
-            int num = Integer.parseInt(matcher.group(1));
-            int den = Integer.parseInt(matcher.group(2));
-            
-            numerator = numerator * den + num * denominator;
-            denominator *= den;
-            
-            int gcdVal = gcd(Math.abs(numerator), denominator);
-            numerator /= gcdVal;
-            denominator /= gcdVal;
+    public String fractionAddition(String expr) {
+        int nume = 0;
+        int deno = 1;
+
+        int i = 0;
+        int n = expr.length();
+        while (i < n) {
+            int currNume = 0;
+            int currDeno = 0; 
+            boolean isNeg = (expr.charAt(i) == '-');
+
+            if (expr.charAt(i) == '+' || expr.charAt(i) == '-') {
+                i++;
+            }
+
+            while (i < n && Character.isDigit(expr.charAt(i))) {
+                int val = expr.charAt(i) - '0';
+                currNume = (currNume * 10) + val;
+                i++;
+            }
+
+            i++;
+
+            if (isNeg) {
+                currNume *= -1; 
+            }
+
+            while (i < n && Character.isDigit(expr.charAt(i))) {
+                int val = expr.charAt(i) - '0';
+                currDeno = (currDeno * 10) + val;
+                i++;
+            }
+
+            nume = nume * currDeno + currNume * deno;
+            deno = deno * currDeno;
         }
-        
-        return numerator + "/" + denominator;
+
+        int gcd = gcd(Math.abs(nume), deno);
+
+        nume /= gcd;
+        deno /= gcd;
+
+        return nume + "/" + deno;
     }
-    
+
     private int gcd(int a, int b) {
-        while (b != 0) {
-            int temp = b;
-            b = a % b;
-            a = temp;
+        if (b == 0) {
+            return a;
         }
-        return a;
+        return gcd(b, a % b);
     }
 }
