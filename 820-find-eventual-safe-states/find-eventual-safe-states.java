@@ -12,26 +12,21 @@ class Solution {
                 indegree[i]++;
             }
         }
-
-        boolean[] vis = new boolean[n];
         Queue<Integer> q = new LinkedList<>();
-        int[] tSort = new int[n];
         List<Integer> ans = new ArrayList<>();
         for(int i =0;i<n;i++){
             if(indegree[i] == 0){
                 q.add(i);
-                vis[i] = true;
             }
         }
-        int index = 0;
+
         while(!q.isEmpty()){
-            int node = q.peek();
-            q.remove();
-            ans.add(index, node);
-            index++;
-            for(int it : revAdj.get(node)){
-                if(--indegree[it] == 0){
-                    q.add(it);
+            int u = q.poll();
+            ans.add(u);
+            for(int v : revAdj.get(u)){
+                indegree[v]--;
+                if(indegree[v] == 0){
+                    q.add(v);
                 }
             }
         }
