@@ -2,37 +2,38 @@ class Solution {
     public void solve(char[][] board) {
         int n = board.length;
         int m = board[0].length;
-        Queue<Pair> q = new LinkedList<>();
-        boolean[][] vis = new boolean[n][m];
-        for(int i =0;i<n;i++){
-            for(int j =0;j<m;j++){
-                if(i ==0 || j ==0 || i == n-1 || j == m-1){
-                    if(board[i][j] == 'O'){
-                        q.add(new Pair(i, j));
-                        vis[i][j] =true;
-                    }
-                }
-            }
-        }
-        int[] delr = {0,-1,0,1};
-        int[] delc = {-1,0,1, 0};
-        while(!q.isEmpty()){
-            int r = q.peek().first;
-            int c = q.peek().second;
-            q.remove();
 
-            for(int i =0;i<4;i++){
-                int newr = r+delr[i];
-                int newc = c+delc[i];
-                if(newr >=0 && newc >=0 && newr<n && newc <m && !vis[newr][newc] && board[newr][newc] == 'O'){
-                    vis[newr][newc] = true;
-                    q.add(new Pair(newr, newc));
+        boolean[][] vis = new boolean[n][m];
+        Queue<Pair> q = new LinkedList<>();
+        for(int i = 0 ;i<n;i++){
+            for(int j =0;j<m;j++){
+                if((i == 0 || j == 0 || i == n-1 || j== m-1) && board[i][j] == 'O'){
+                    vis[i][j] = true;
+                    q.add(new Pair(i, j));
                 }
             }
         }
-        for(int i =0;i<n;i++){
+        int[] dr = {0, 1, 0, -1};
+        int[] dc = {1, 0, -1, 0};
+
+        while(!q.isEmpty()){
+            Pair p = q.peek();
+            q.remove();
+            int r = p.r;
+            int c = p.c;
+            for(int i =0;i<4;i++){
+                    int nr = r + dr[i];
+                    int nc = c + dc[i];
+                    if(nr >= 0 && nr < n && nc >=0 && nc < m && !vis[nr][nc] && board[nr][nc] == 'O'){
+                        q.add(new Pair(nr, nc));
+                        vis[nr][nc] = true;
+                    }
+            }
+        }
+
+        for(int i = 0 ;i<n;i++){
             for(int j =0;j<m;j++){
-                if(board[i][j] == 'O' && !vis[i][j]){
+                if(!vis[i][j] && board[i][j] == 'O'){
                     board[i][j] = 'X';
                 }
             }
@@ -40,12 +41,11 @@ class Solution {
     }
 }
 
-class Pair {
-    int first;
-    int second;
-
-    public Pair(int first, int second) {
-        this.first = first;
-        this.second = second;
-    }
+class Pair{
+    int r;
+    int c;
+    public Pair(int r, int c){
+        this.r = r;
+        this.c = c;
+    }   
 }
