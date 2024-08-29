@@ -1,24 +1,27 @@
 class Solution {
     public int removeStones(int[][] stones) {
-        int n = stones.length;
-        if(stones == null) return 0;
-        int island = 0;
-        Set<String> vis = new HashSet();
-        for(int i =0;i<n;i++){
-            int r = stones[i][0];
-            int c = stones[i][1];
-            if(!vis.contains(r+"-"+c)){
-                island++;
-                dfs(stones, r, c, vis);
-            }
+        if(stones == null || stones.length == 0) return 0;
+        
+        final int N = stones.length;
+        
+        int count = 0;
+        Set<Integer> visited = new HashSet<Integer>();
+        for(int i = 0; i < N; i++){
+            if(visited.contains(i)) continue;
+            count++;
+            dfs(stones, visited, i);
         }
-        return n - island;
+        
+        return N - count;
     }
-    public void dfs(int[][] stones, int r, int c, Set<String> vis){
-        vis.add(r+"-"+c);
-        for(int[] stone : stones){
-            if((stone[0] == r || stone[1] == c) && !vis.contains(stone[0]+"-"+stone[1])){
-                dfs(stones, stone[0], stone[1], vis);
+    
+    private void dfs(int[][] stones, Set<Integer> visited, int index){
+        visited.add(index);
+        for(int i = 0; i < stones.length; i++){
+            if(visited.contains(i)) continue;
+            
+            if(stones[i][0] == stones[index][0] || stones[i][1] == stones[index][1]){
+                dfs(stones, visited, i);
             }
         }
     }
