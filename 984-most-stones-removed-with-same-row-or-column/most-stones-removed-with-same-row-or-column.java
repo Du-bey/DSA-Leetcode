@@ -18,9 +18,8 @@ class Solution {
     private void dfs(int[][] stones, Set<Integer> visited, int index){
         visited.add(index);
         for(int i = 0; i < stones.length; i++){
-            if(visited.contains(i)) continue;
             
-            if(stones[i][0] == stones[index][0] || stones[i][1] == stones[index][1]){
+            if((stones[i][0] == stones[index][0] || stones[i][1] == stones[index][1]) && !visited.contains(i)){
                 dfs(stones, visited, i);
             }
         }
