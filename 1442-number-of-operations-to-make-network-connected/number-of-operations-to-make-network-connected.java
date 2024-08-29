@@ -1,56 +1,80 @@
 class Solution {
-    int extraEdge = 0;
     public int makeConnected(int n, int[][] connections) {
-        List<List<Integer>> adj = new ArrayList<>();
-        for(int i =0;i<n;i++){
-            adj.add(new ArrayList<>());
-        }
-        for(int[] r : connections){
-            int u = r[0];
-            int v = r[1];
-            adj.get(u).add(v);
-            adj.get(v).add(u);
-        }
-        boolean[] vis = new boolean[n];
-        int isolatedNetwork =0;
-
-        for(int i =0;i<n;i++){
-            if(!vis[i]){
-                isolatedNetwork++;
-                bfs(vis, adj, i);
+        int extra = 0;
+        DisjointSet ds = new DisjointSet(n);
+        for(int [] r : connections){
+            if(!ds.unionBySize(r[0], r[1])){
+                extra++;
             }
         }
-        extraEdge /= 2;
-        if(isolatedNetwork-1 > extraEdge) return -1;
-        return isolatedNetwork - 1;
-    }
-
-    public void bfs(boolean[] vis, List<List<Integer>> adj, int i){
-        Queue<Pair> q = new LinkedList<>();
-        q.add(new Pair(i, -1));
-        vis[i] = true;
-        while(!q.isEmpty()){
-            int n = q.peek().first;
-            int p = q.peek().second;
-            q.remove();
-            for(int it : adj.get(n)){
-                if(!vis[it]){
-                    q.add(new Pair(it, n));
-                    vis[it] = true;
-                }
-                else if(vis[it] && it != p){
-                    extraEdge++;
-                }
-            }
+        int island = 0;
+        for(int i =0;i<n;i++){
+            if(ds.parent.get(i) == i) island++;
         }
+        if(island - 1 > extra) return -1;
+        return island - 1;
     }
 }
 
-class Pair{
-    int first;
-    int second;
-    public Pair(int first, int second){
-        this.first = first;
-        this.second = second;
+public class DisjointSet {
+    List<Integer> rank = new ArrayList<>();
+    List<Integer> parent = new ArrayList<>();
+    List<Integer> size = new ArrayList<>();
+    public DisjointSet(int n) {
+        for(int i =0;i<=n;i++){
+            rank.add(0);
+            parent.add(i);
+            size.add(1);
+        }
+    }
+
+    public int findUPar(int node){
+        var pNode = parent.get(node);
+        if(node == pNode){
+            return node;
+        }
+        int ulp = findUPar(pNode);
+        parent.set(node, ulp);
+        return ulp;
+    }
+
+    public void unionByRank(int u, int v){
+        int up = findUPar(u);
+        int vp = findUPar(v);
+
+        if(up == vp) return;
+        int ru = rank.get(u);
+        int rv = rank.get(v);
+        if(rv > ru){
+            parent.set(up, vp);
+        }
+        else if(ru > rv){
+            parent.set(vp, up);
+        }
+        else{
+            parent.set(vp, up);
+            int upRank = rank.get(up);
+            upRank++;
+            rank.set(up, upRank);
+        }
+    }
+
+    public boolean unionBySize(int u, int v){
+        int up = findUPar(u);
+        int vp = findUPar(v);
+
+        if(up == vp) return false;
+        int ru = size.get(u);
+        int rv = size.get(v);
+        if(rv > ru){
+            parent.set(up, vp);
+            size.set(vp, size.get(up) + size.get(vp));
+        }
+
+        else{
+            parent.set(vp, up);
+            size.set(up, size.get(up) + size.get(vp));
+        }
+        return true;
     }
 }
