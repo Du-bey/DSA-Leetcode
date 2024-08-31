@@ -4,7 +4,7 @@ class Solution {
         int[] ans = new int[n];
         Arrays.fill(ans, 1);
         int cur = 1;
-        for(int i =0;i<n;i++){
+        for(int i=0;i<n;i++){
             ans[i] = ans[i] * cur;
             cur = cur * nums[i];
         }
@@ -13,7 +13,6 @@ class Solution {
             ans[i] = ans[i] * cur;
             cur = cur * nums[i];
         }
-        
         return ans;
     }
 }
