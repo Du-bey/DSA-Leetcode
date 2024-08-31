@@ -8,15 +8,15 @@ class Solution {
             csum += cost[i];
         }
         if(gsum < csum) return -1;
-        int tgas = 0;
-        int start = 0;
+        int tGas = 0;
+        int ans = 0;
         for(int i =0;i<n;i++){
-            tgas += gas[i] - cost[i];
-            if(tgas < 0){
-                tgas = 0;
-                start = i+1;
+            tGas += gas[i] - cost[i];
+            if(tGas < 0){
+                tGas = 0;
+                ans = i+1;
             }
         }
-        return start;
+        return ans;
     }
 }
