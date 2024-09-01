@@ -1,29 +1,30 @@
 class Solution {
-    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        if (!wordList.contains(endWord))
-            return 0;
-        Queue<Pair> q = new LinkedList<>();
-        q.add(new Pair(1, beginWord));
-        Set<String> set = new HashSet<>();
-        for(int i=0;i<wordList.size(); i++){
-            set.add(wordList.get(i));
+    public int ladderLength(String begin, String end, List<String> list) {
+        int n1 = list.size();
+        if(!list.contains(end)) return 0;
+        HashSet<String> h = new HashSet<>();
+        for(int i =0;i<n1;i++){
+            h.add(list.get(i));
         }
-        set.remove(beginWord);
-
+        h.remove(begin);
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(begin, 1));
         while(!q.isEmpty()){
-            int t = q.peek().first;
-            String s = q.peek().second;
-            q.remove();
+            Pair p = q.poll();
+            String s = p.s;
+            int lev = p.level;
+
+            if(s.equals(end)) return lev;
+
             int n = s.length();
-            if(s.equals(endWord)) return t;
             for(int i =0;i<n;i++){
-                char[] convertedArray = s.toCharArray();
-                for(char c = 'a'; c<='z'; c++){
-                    convertedArray[i] = c;
-                    String convertedString = new String(convertedArray);
-                    if(set.contains(convertedString)){
-                        set.remove(convertedString);
-                        q.add(new Pair(t+1, convertedString));
+                char[] c= s.toCharArray();
+                for(char ch ='a';ch<='z';ch++){
+                    c[i] = ch;
+                    String s2 = new String(c);
+                    if(h.contains(s2)){
+                        h.remove(s2);
+                        q.add(new Pair(s2, lev + 1));
                     }
                 }
             }
@@ -33,11 +34,10 @@ class Solution {
 }
 
 class Pair{
-    int first;
-    String second;
-
-    public Pair(int first, String second){
-        this.first = first;
-        this.second = second; 
+    String s;
+    int level;
+    public Pair(String s, int level){
+        this.s = s;
+        this.level = level;
     }
 }
