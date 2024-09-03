@@ -6,15 +6,9 @@ class Solution {
         PriorityQueue<Tuple> pq = new PriorityQueue<>((a, b) -> a.d - b.d);
         boolean[][] vis = new boolean[n][m];
         pq.add(new Tuple(grid[0][0],0,0));
-        int[][] dis = new int[n][m];
-        for(int i = 0;i<n;i++) {
-            for(int j =0;j<m;j++) {
-                dis[i][j] = (int)(1e9);
-            }
-        }
+    
         int ans = 0;
         vis[0][0] = true;
-        dis[0][0] = 0;
         int[] delr = {0, 1, 0, -1};
         int[] delc = {1, 0, -1, 0};
         while(!pq.isEmpty()){
