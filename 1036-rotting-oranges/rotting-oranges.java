@@ -8,6 +8,7 @@ class Solution {
             for(int j =0;j<m;j++){
                 if(board[i][j] == 2){
                     q.add(new Pair(i, j, 0));
+                    vis[i][j] = true;
                 }
             }
         }
@@ -19,13 +20,12 @@ class Solution {
             int r = p.r;
             int c = p.c;
             int t = p.t;
-            if(vis[r][c]) continue;
-            vis[r][c] = true;
             ans = Math.max(ans, t);
             for(int i=0;i<4;i++){
                 int nr = r + delr[i];
                 int nc = c + delc[i];
-                if(nr>=0 && nc >=0 && nr < n && nc < m && board[nr][nc] == 1){
+                if(nr>=0 && nc >=0 && nr < n && nc < m && board[nr][nc] == 1 && !vis[nr][nc]){
+                    vis[nr][nc] = true;
                     q.add(new Pair(nr, nc, t+1));
                     board[nr][nc] = 2;
                 }
