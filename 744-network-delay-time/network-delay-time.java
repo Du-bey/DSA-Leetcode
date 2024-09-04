@@ -1,52 +1,48 @@
 class Solution {
-    public static int networkDelayTime(int[][] times, int n, int k) {
-        boolean[] vis = new boolean[n+1];
-        int[] dis = new int[n+1];
-        Arrays.fill(dis, Integer.MAX_VALUE);
-        int ans = 0;
+    public int networkDelayTime(int[][] times, int n, int k) {
         List<List<Pair>> adj = new ArrayList<>();
         for(int i =0;i<=n;i++){
             adj.add(new ArrayList<>());
         }
-        for(int [] edge : times){
-            int u = edge[0];
-            int v = edge[1];
-            int w = edge[2];
+        for(int[] row : times){
+            int u = row[0];
+            int v = row[1];
+            int w = row[2];
             adj.get(u).add(new Pair(v, w));
         }
-        PriorityQueue<Pair> q = new PriorityQueue<>((x, y) -> x.first - y.first);
-        q.add(new Pair(0, k));
-        dis[k] = 0;
-        while(!q.isEmpty()){
-            Pair p = q.poll();
-            int t = p.first;
-            int u = p.second;
+        boolean[] vis = new boolean[n+1];
+        int[] dis = new int[n+1];
+        Arrays.fill(dis, Integer.MAX_VALUE);
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b) -> a.wt - b.wt);
+        pq.add(new Pair(k, 0));
+        dis[k] = 0; 
+        int ans = 0;
+        while(!pq.isEmpty()){
+            Pair p = pq.poll();
+            int u = p.node;
+            int wt = p.wt;
             if(vis[u]) continue;
             vis[u] = true;
-            ans = Math.max(t, ans);
-            for(Pair neig : adj.get(u)){
-                int edw = neig.second;
-                int v = neig.first;
-                if(dis[v] > edw + t){
-                    dis[v] = edw + t;
-                    q.add(new Pair(dis[v], v));
+            ans = Math.max(ans, wt);
+            n--;
+            for(Pair p2 : adj.get(u)){
+                int v = p2.node;
+                int w = p2.wt;
+                if(dis[v] > w + wt){
+                    dis[v] = w+wt;
+                    pq.add(new Pair(v, w+wt));
                 }
             }
         }
-        for(int i =1;i<=n;i++){
-            if(!vis[i]) {
-                return -1;
-            }
-        }
-        return ans;
+        return n == 0 ? ans : -1;
     }
 }
 
 class Pair{
-    int first;
-    int second;
-    public Pair(int first, int second){
-        this.first = first;
-        this.second = second;
+    int node;
+    int wt;
+    public Pair(int node, int wt){
+        this.node = node;
+        this.wt = wt;
     }
 }
