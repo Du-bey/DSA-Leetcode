@@ -20,19 +20,13 @@ class Solution {
         return cnt;
     }
 
-    public void dfs(int n, List<List<Integer>> adj, List<List<Integer>> uadj, boolean[] vis) {
-        vis[n] = true;
-        for(int it : uadj.get(n)){
-            if(!vis[it]){
-                dfs(it, adj, uadj, vis);
-                if(adj.get(n).contains(it)){
-
-                    adj.get(it).add(n);
-                    List<Integer> list = adj.get(n);
-                    list.removeIf(s -> s.equals(it));
-                    
+    public void dfs(int u, List<List<Integer>> adj, List<List<Integer>> uadj, boolean[] vis){
+        vis[u] = true;
+        for(int v : uadj.get(u)){
+            if(!vis[v]){
+                dfs(v, adj, uadj, vis);
+                if(adj.get(u).contains(v)){
                     cnt++;
-
                 }
             }
         }
