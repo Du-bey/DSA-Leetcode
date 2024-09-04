@@ -10,26 +10,31 @@ class Solution {
             int w = row[2];
             adj.get(u).add(new Pair(v, w));
         }
-        boolean[] vis = new boolean[n+1];
+        int[] dis = new int[n+1];
+        Arrays.fill(dis, Integer.MAX_VALUE);
         PriorityQueue<Pair> pq = new PriorityQueue<>((a,b) -> a.wt - b.wt);
         pq.add(new Pair(k, 0));
-        int ans = 0;
+        dis[k] = 0;
         while(!pq.isEmpty()){
             Pair p = pq.poll();
             int u = p.node;
             int wt = p.wt;
-            if(vis[u]) continue;
-            vis[u] = true;
-            ans = Math.max(ans, wt);
-            n--;
             for(Pair p2 : adj.get(u)){
                 int v = p2.node;
                 int w = p2.wt;
-                pq.add(new Pair(v, w+wt));
-                
+                if(dis[v] > w + wt){
+                    dis[v] = w+wt;
+                    pq.add(new Pair(v, w+wt));
+                }
             }
+            
         }
-        return n == 0 ? ans : -1;
+        int ans = -1;
+        for(int i =1;i<=n;i++){
+            if(dis[i] == Integer.MAX_VALUE) return -1;
+            ans = Math.max(ans, dis[i]);
+        }
+        return ans;
     }
 }
 
