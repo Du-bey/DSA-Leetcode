@@ -1,63 +1,70 @@
 class Solution {
     public int snakesAndLadders(int[][] board) {
-        // code here
         int n = board.length;
-        int size = n*n;
-        int[] moves = new int[size+1];
         Collections.reverse(Arrays.asList(board));
-        int k = 1;
-        for (int i =0; i<n; i++) {
-            int j =0;
-            int decrease = 0;
-            if(i%2 != 0) {
-                j = n-1;
-                decrease = 1;
-            }
-            while(j>=0 && j<n){
-                moves[k] = board[i][j];
-                j = decrease == 0 ? j+1 : j-1;
-                System.out.println(moves[k] + " k" + k);
-                k++;
-            }
-           
-        }
-        boolean[] vis = new boolean[size+1];
-        Queue<Pair> q = new LinkedList<>();
-        q.add(new Pair(1, 0));
-        vis[1] = true;
-        int ans = 10000;
-        
-        while(!q.isEmpty()){
-            int node = q.peek().first;
-            int d = q.peek().second;
-            q.remove();
-            if(node == size && ans > d) {
-                ans= d;
-            }
-            
-            for(int i =node+1 ;i<= node +6 && i<=size; i++){
-                int newNode = i;
-                if(!vis[newNode]){
-                    int newDis = d+1;
-                    int nNode = (moves[newNode] == -1 ? newNode : moves[newNode]);
-                    
-                    vis[newNode] = true;
-                    q.add(new Pair(nNode, newDis));
+
+        boolean[] visited = new boolean[n*n+1];
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{1, 0});
+        visited[1] = true;
+
+        while(!q.isEmpty()) {
+            int[] curr = q.poll();
+            for(int j=1; j<=6; j++) {
+                int next = curr[0] + j;
+                int[] coor = squareToCoor(next, n);
+                if(board[coor[0]][coor[1]] != -1) {
+                    next = board[coor[0]][coor[1]];
                 }
-                
+                if(next == n*n) {
+                    return curr[1] + 1;
+                }
+                if(!visited[next]) {
+                    visited[next] = true;
+                    q.offer(new int[]{next, curr[1] + 1});
+                }
             }
         }
-        if(ans == 10000) ans = -1;
-        return ans;
+
+        return -1;
+    }
+
+    public int[] squareToCoor(int square, int n) {
+        int row = (square - 1) / n;
+        int col = (square - 1) % n;
+        if(row % 2 != 0) {
+            col = n - 1 - col;
+        }
+        return new int[]{row, col};
+    }
+
+    public void reverseBoard(int[][] board) {
+        int l = 0, r = board.length-1;
+        while(l < r) {
+            int[] temp = board[l];
+            board[l] = board[r];
+            board[r] = temp;
+            l++;
+            r--;
+        }
     }
 }
 
-class Pair{
-    int first;
-    int second;
 
-    public Pair(int first, int second){
-        this.first = first;
-        this.second = second;
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
