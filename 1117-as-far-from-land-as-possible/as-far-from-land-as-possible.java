@@ -7,27 +7,31 @@ class Solution {
         for(int i =0;i<n;i++){
             for(int j =0;j<n;j++){
                 if(grid[i][j] == 1){
-                    q.add(new Pair(i, j, 0));
+                    q.add(new Pair(i, j));
                     vis[i][j] = true;
                 }
             }
         }
+        if (q.isEmpty() || q.size() == n * n) return -1;
         int ans = -1;
         while(!q.isEmpty()){
-            Pair p = q.poll();
-            int r = p.first;
-            int c = p.second;
-            int t = p.t;
+            int size = q.size();
+            ans++;
+            while(size -- > 0){
+                Pair p = q.poll();
+                int r = p.first;
+                int c = p.second;
 
-            for(int[] d : dir){
-                int nr = r + d[0];
-                int nc = c + d[1];
-                if(nr >=0 && nc >=0 && nr <n && nc < n && !vis[nr][nc]){
-                    q.add(new Pair(nr, nc, t+1));
-                    vis[nr][nc] = true;
-                    ans = Math.max(ans, t+1);
+                for(int[] d : dir){
+                    int nr = r + d[0];
+                    int nc = c + d[1];
+                    if(nr >=0 && nc >=0 && nr <n && nc < n && !vis[nr][nc]){
+                        q.add(new Pair(nr, nc));
+                        vis[nr][nc] = true;
+                    }
                 }
             }
+            
         }
         return ans;
     }
@@ -36,12 +40,10 @@ class Solution {
 class Pair{
     int first;
     int second;
-    int t;
 
-    public Pair(int first, int second, int t){
+    public Pair(int first, int second){
         this.first = first;
         this.second = second;
-        this.t = t;
         
     }
 }
