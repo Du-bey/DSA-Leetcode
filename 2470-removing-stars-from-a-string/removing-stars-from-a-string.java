@@ -1,13 +1,13 @@
 class Solution {
     public String removeStars(String s) {
         int n = s.length();
-        String ans = "";
+        StringBuilder sb = new StringBuilder();
         int star = 0;
         for(int i =n-1;i>=0;i--){
             char c = s.charAt(i);
             if(c != '*'){
                 if(star == 0){
-                    ans = c + ans;
+                    sb.insert(0, c);
                 }
                 else{
                     star--;
@@ -17,6 +17,6 @@ class Solution {
                 star++;
             }
         }
-        return ans;
+        return sb.toString();
     }
 }
