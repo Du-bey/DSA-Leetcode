@@ -15,15 +15,15 @@ class Solution {
         
     }
     public long dfs(int node, int parent, List<List<Integer>> adj, int seats) {
-        int people = 1;
+        int passengers = 0;
         
-        for(int it : adj.get(node)){
-            if(it == parent) continue;
-            people+= dfs(it, node, adj, seats);
+        for(int child : adj.get(node)){
+            if(child != parent){
+                long p = dfs(child, node, adj, seats);
+                passengers += p;
+                ans += (long) Math.ceil((double)p/seats);
+            }
         }
-        if(node != 0){
-            ans+= Math.ceil((double) people/seats);
-        }
-        return people;
+        return passengers + 1;
     }
 }
