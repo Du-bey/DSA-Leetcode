@@ -25,16 +25,20 @@ class Solution {
         ListNode node = head;
         ListNode prev = null;
         
-        for(int i =0; node !=null && i < k;i++){
+        for(int i =0;i < k;i++){
+            if(node == null) break;
             ans[i] = node;
-            int jSize = a;
-            if(b > 0) jSize++;
-            for(int j =0;j<jSize;j++){
+            
+            for(int j =0;j<a;j++){
                 prev = node;
                 node = node.next;
             }
+            if(b > 0) {
+                prev = node;
+                node = node.next;
+                b--;
+            }
             prev.next = null;
-            b--;
         }
         return ans;
     }
