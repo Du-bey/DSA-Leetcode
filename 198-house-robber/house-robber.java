@@ -6,15 +6,13 @@ class Solution {
         return f(n-1, nums, dp);
     }
 
-    public int f(int i, int[] nums, int [] dp){
+    public int f(int i, int[] nums, int[] dp){
         if(i < 0) return 0;
-        if(i == 0) return nums[0];
+        if(i == 0) return nums[i];
 
         if(dp[i] != -1) return dp[i];
 
-        int take = nums[i] + f(i-2, nums, dp);
-        int notTake = 0 + f(i-1, nums, dp);
-        dp[i] = Math.max(take, notTake);
+        dp[i] = Math.max(f(i-1, nums, dp), nums[i] + f(i-2, nums, dp));
         return dp[i];
     }
 }
