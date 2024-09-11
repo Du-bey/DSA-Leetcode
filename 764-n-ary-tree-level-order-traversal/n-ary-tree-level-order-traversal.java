@@ -29,10 +29,8 @@ class Solution {
             for(int i =0;i<s;i++){
                 Node u = q.poll();
                 temp.add(u.val);
-                List<Node> child = u.children;
-                int csize = child.size();
-                for(int j =0;j<csize;j++){
-                    if(child.get(j) != null) q.add(child.get(j));
+                for(Node child: u.children){
+                    if(child != null) q.add(child);
                 }
             }
             ans.add(temp);
