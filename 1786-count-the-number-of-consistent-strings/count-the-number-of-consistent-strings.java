@@ -10,7 +10,7 @@ class Solution {
         for(String s : words){
             for(int j =0;j<s.length();j++){
                 char c = s.charAt(j);
-                if((1 & (ch >> (c - 'a'))) == 0){
+                if((ch & (1 << (c - 'a'))) == 0){
                     ans--;
                     break;
                 }
