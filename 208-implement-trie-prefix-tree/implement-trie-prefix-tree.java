@@ -10,7 +10,7 @@ class Trie {
         for(int i =0;i<word.length();i++){
             char ch = word.charAt(i);
             if(!node.containsKey(ch)){
-                node.put(word.charAt(i), new Node()); 
+                node.put(ch, new Node());
             }
             node = node.get(ch);
         }
@@ -46,21 +46,22 @@ class Node {
     Node[] links = new Node[26];
     boolean flag = false;
 
-    public Node() {}
+    public Node() {};
 
-    boolean containsKey(char ch){
-        return links[ch-'a'] != null;
+    public boolean containsKey(char ch){
+        return links[ch - 'a'] != null;
     }
 
-    Node get(char ch) {
-        return links[ch-'a']; 
-    }
-    void put(char ch, Node node) {
-        links[ch-'a'] = node; 
+    public void put(char ch, Node node){
+        links[ch - 'a'] = node;
     }
 
-    void setEnd() {
-        flag = true; 
+    public Node get(char ch){
+        return links[ch - 'a'];
+    }
+    
+    public void setEnd(){
+        flag = true;
     }
 }
 
