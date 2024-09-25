@@ -1,25 +1,36 @@
 class Solution {
     public int longestCommonPrefix(int[] arr1, int[] arr2) {
-        HashSet<String> h = new HashSet<>();
-        for(int n : arr1){
-            String s = String.valueOf(n);
-            String prefix = "";
-            for(char ch : s.toCharArray()){
-                prefix += ch;
-                h.add(prefix);
+        Node root = new Node();
+        for(int x : arr1){
+            String s = String.valueOf(x);
+            Node node = root;
+            for(int i =0;i<s.length();i++){
+                char c = s.charAt(i);
+                if(node.links[c - '0'] == null){
+                    node.links[c - '0'] = new Node();
+                }
+                node = node.links[c - '0'];
             }
         }
         int ans = 0;
-        for(int n : arr2){
-            String s = String.valueOf(n);
-            String prefix = "";
-            for(char ch : s.toCharArray()){
-                prefix += ch;
-                if(h.contains(prefix)){
-                    ans = Math.max(ans, prefix.length());
+        for(int x : arr2){
+            int cnt = 0;
+            String s = String.valueOf(x);
+            Node node = root;
+            for(int i =0;i<s.length();i++){
+                char c = s.charAt(i);
+                if(node.links[c - '0'] == null){
+                    break;
                 }
+                node = node.links[c - '0'];
+                cnt++;
+                ans = Math.max(ans, cnt);
             }
         }
         return ans;
     }
+}
+
+class Node{
+    Node[] links = new Node[26];
 }
