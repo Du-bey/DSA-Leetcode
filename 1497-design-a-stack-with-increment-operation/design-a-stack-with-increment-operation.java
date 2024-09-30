@@ -1,28 +1,32 @@
 class CustomStack {
-    List<Integer> l;
-    int cap;
+    int n;
+    int[] inc;
+    Stack<Integer> st;
     public CustomStack(int maxSize) {
-        l = new ArrayList<>();
-        cap = maxSize;
+        inc = new int[maxSize];
+        st = new Stack<>();
+        n = maxSize;
     }
     
     public void push(int x) {
-        if(l.size() < cap){
-            l.add(x);
+        if(st.size() < n){
+            st.push(x);
         }
     }
     
     public int pop() {
-        if(l.size() == 0) return -1;
-        return l.remove(l.size() - 1);
+        int i = st.size() - 1;
+        if(i < 0) return -1;
+        if(i > 0) inc[i-1] += inc[i];
+        int num = st.pop();
+        num += inc[i];
+        inc[i] = 0;
+        return num;
     }
     
     public void increment(int k, int val) {
-        for(int i = 0;i<l.size();i++){
-            if(k == 0) break;
-            k--;
-            l.set(i, l.get(i) + val);
-        }
+        k = Math.min(k, st.size()) - 1; 
+        if(k >=0) inc[k] += val;
     }
 }
 
