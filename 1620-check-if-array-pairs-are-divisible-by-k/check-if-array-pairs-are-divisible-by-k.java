@@ -6,7 +6,7 @@ class Solution {
             arr[i] = ((arr[i] % k)+k) % k;
             freq[arr[i]]++;
         }
-        for(int i =1;i<k-1;i++){
+        for(int i =1;i<=k/2;i++){
             if(freq[i] != freq[k-i]) return false;
         }
         if(freq[0] % 2 != 0) return false;
