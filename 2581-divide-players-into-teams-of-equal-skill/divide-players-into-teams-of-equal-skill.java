@@ -1,10 +1,10 @@
 class Solution {
     public long dividePlayers(int[] skill) {
-        HashMap<Integer, Integer> h = new HashMap<>();
+        int[] h = new int[1001];
         int tot = 0;
         for(int x : skill){
             tot += x;
-            h.put(x, h.getOrDefault(x, 0) + 1);
+            h[x]++;
         }
         int n = skill.length;
         tot *= 2;
@@ -13,12 +13,12 @@ class Solution {
         
         long ans = 0;
         for(int x : skill){
-            if(h.get(x) > 0){
+            if(h[x] > 0){
                 int oth = sum - x;
-                if(!h.containsKey(oth) || h.get(oth) < 1) return -1;
+                if(h[oth] < 1) return -1;
                 ans += x * oth;
-                h.put(x, h.get(x) - 1);
-                h.put(oth, h.get(oth) - 1);
+                h[x]--;
+                h[oth]--;
             }
         }
         return ans;
