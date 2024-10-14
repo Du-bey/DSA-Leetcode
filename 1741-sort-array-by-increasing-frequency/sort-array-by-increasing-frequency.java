@@ -5,15 +5,8 @@ class Solution {
         for(int num : nums){
             h.put(num, h.getOrDefault(num, 0) + 1);
         }
-        PriorityQueue<Integer> pq = new PriorityQueue<>(
-            (a, b) -> {
-                if (h.get(b) != h.get(a)) {
-                    return Integer.compare(h.get(b), h.get(a));
-                } else {
-                    return Integer.compare(a, b);
-                }
-            }
-        );
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> h.get(b) != h.get(a) ? (h.get(b) - h.get(a)) : (a - b));
+
         for(int key : h.keySet()){
             pq.add(key);
         }
