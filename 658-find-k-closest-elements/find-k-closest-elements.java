@@ -1,33 +1,27 @@
 class Solution {
-    public List<Integer> findClosestElements(int[] arr, int k, int target) {
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> {
-            int diffA = Math.abs(a - target);
-            int diffB = Math.abs(b - target);
-            if (diffA == diffB) {
-                return b - a;
-            }
-            return diffB - diffA;
-        });
-
-        for (int num : arr) {
-            maxHeap.offer(num);
-            if (maxHeap.size() > k)
-                maxHeap.poll();
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        HashMap<Integer, Integer> h = new HashMap<>();
+        for(int no : arr){
+            pq.add(Math.abs(no - x));
+            if(pq.size() > k) pq.poll();
+            h.put(no, h.getOrDefault(no, 0) + 1);
         }
-
-        List<Integer> result = new ArrayList<>(maxHeap);
-        Collections.sort(result);
-
-        return result;
-    }
-}
-
-class Pair{
-    int first;
-    int second;
-
-    public Pair(int first, int second){
-        this.first = first;
-        this.second = second;
+        List<Integer> ans = new ArrayList<>();
+        while(!pq.isEmpty()){
+            int no = pq.poll();
+            int b = x - no;
+            int a = x + no;
+            if(h.containsKey(b) && h.get(b) > 0){
+                h.put(b, h.get(b) - 1);
+                ans.add(b);
+            }
+            else if(h.containsKey(a) && h.get(a) > 0){
+                h.put(a, h.get(a) - 1);
+                ans.add(a);
+            }
+        }
+        Collections.sort(ans);
+        return ans;
     }
 }
