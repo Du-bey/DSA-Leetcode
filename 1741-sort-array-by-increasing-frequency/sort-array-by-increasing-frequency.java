@@ -2,32 +2,29 @@ class Solution {
     public int[] frequencySort(int[] nums) {
         int n = nums.length;
         HashMap<Integer, Integer> h = new HashMap<>();
-        for(int i =0;i<n;i++){
-            int x = nums[i];
-            h.put(x, h.getOrDefault(x, 0) + 1);
+        for(int num : nums){
+            h.put(num, h.getOrDefault(num, 0) + 1);
         }
-        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(h.entrySet());
-        list.sort((a, b) -> {
-            int val = a.getValue().compareTo(b.getValue());
-            if(val != 0){
-                return val;
+        PriorityQueue<Integer> pq = new PriorityQueue<>(
+            (a, b) -> {
+                if (h.get(b) != h.get(a)) {
+                    return Integer.compare(h.get(b), h.get(a));
+                } else {
+                    return Integer.compare(a, b);
+                }
             }
-            else{
-                return b.getKey().compareTo(a.getKey());
-            }
-        });
-
-        ArrayList<Integer> result = new ArrayList<>();
-        for (Map.Entry<Integer, Integer> entry : list) {
-            int value = entry.getKey();
-            int freq = entry.getValue();
-            for (int i = 0; i < freq; i++) {
-                result.add(value);
-            }
+        );
+        for(int key : h.keySet()){
+            pq.add(key);
         }
         int[] ans = new int[n];
-        for(int i =0;i<n;i++){
-            ans[i] = result.get(i);
+        int i =n-1;
+        while(!pq.isEmpty()){
+            int num = pq.poll();
+            int freq = h.get(num);
+            while(freq -- > 0){
+                ans[i--] = num;
+            }
         }
         return ans;
     }
