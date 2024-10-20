@@ -14,11 +14,8 @@ class Solution {
     }
 
     public int f(int ind, int t, int[] coins, int[][] dp){
-        if(ind == 0){
-            if(t%coins[0] == 0){
-                return t/coins[0];
-            }
-            return mod;
+        if(ind < 0){
+            return t == 0 ? 0 : mod;
         }
         if(dp[ind][t] != -1) return dp[ind][t];
         int notTake = f(ind-1, t, coins, dp);
