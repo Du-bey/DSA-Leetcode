@@ -9,6 +9,11 @@ class Solution {
                 h2.add(x);
             }
         }
-        return h2.stream().mapToInt(Integer::intValue).toArray();
+        int[] ans = new int[h2.size()];
+        int i =0;
+        for(int x : h2){
+            ans[i++] = x;
+        }
+        return ans;
     }
 }
