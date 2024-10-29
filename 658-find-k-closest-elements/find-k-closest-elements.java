@@ -1,6 +1,6 @@
 class Solution {
     public List<Integer> findClosestElements(int[] arr, int k, int x) {
-        Queue<Integer> pq = new LinkedList<>();
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
         
         for(int no : arr){
             if(k-- > 0){
