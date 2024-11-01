@@ -4,18 +4,23 @@ class Solution {
         int n = s.length();
         char[] c = s.toCharArray();
         StringBuilder sb = new StringBuilder();
-        String temp = "";
-        for(int i = n-1;i>=0;i--){
+        StringBuilder temp = new StringBuilder();
+        Stack<String> st = new Stack<>();
+        for(int i =0;i<n;i++){
             if(c[i] == ' '){
-                sb.append(temp);
-                sb.append(' ');
-                temp = "";
+                st.push(temp.toString());
+                temp.setLength(0);
             }
             else{
-                temp = c[i] + temp;
+                temp.append(c[i]);
             }
         }
-        sb.append(temp);
+        st.push(temp.toString());
+        while(!st.isEmpty()){
+            sb.append(st.pop());
+            sb.append(" ");
+        }
+        sb.deleteCharAt(sb.length() - 1);
         return sb.toString(); 
     }
 }
