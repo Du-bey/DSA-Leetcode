@@ -2,24 +2,17 @@ class Solution {
     public String compressedString(String word) {
         StringBuilder sb = new StringBuilder();
         int n = word.length();
-        int i = 0;
-        while(i < n){
-            int j = i;
-            int freq = 0;
-            while(j < n && word.charAt(i) == word.charAt(j)){
-                if(freq < 9){
-                    j++;
-                    freq++;
-                }
-                else{
-                    sb.append(freq);
-                    sb.append(word.charAt(i));
-                    freq = 0;
-                }
-            } 
-            sb.append(freq);
-            sb.append(word.charAt(i));
-            i = j;
+        
+        for(int i =0;i<n;i++){
+            char ch = word.charAt(i);
+            int cnt = 0;
+            while(i < n && word.charAt(i) == ch && cnt < 9){
+                cnt++;
+                i++;
+            }
+            i--;
+            sb.append(cnt);
+            sb.append(ch);
         }
         return sb.toString();
     }
