@@ -10,10 +10,8 @@ class Solution {
         for(int i =1;i<n;i++){
             for(int j=0;j<m;j++){
                 int down = dp[i-1][j];
-                int left = 1000000;
-                if(j > 0) left = dp[i-1][j-1];
-                int right = 1000000;
-                if(j < m - 1) right = dp[i-1][j+1];
+                int left = dp[i-1][Math.max(0, j -1)];
+                int right = dp[i-1][Math.min(m-1, j + 1)];
 
                 dp[i][j] = matrix[i][j] + Math.min(down, Math.min(left, right));
             }
