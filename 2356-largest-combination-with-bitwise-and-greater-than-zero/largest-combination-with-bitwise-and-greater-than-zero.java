@@ -8,7 +8,7 @@ class Solution {
             }
             ans = Math.max(ans, len);
         }
-        return Math.max(ans, 1);
+        return ans;
     }
 
     public boolean iBitSet(int n, int i){
