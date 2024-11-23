@@ -14,10 +14,7 @@ class Solution {
             h.put(vs, h.getOrDefault(vs, 0) + 1);
             h.put(rs, h.getOrDefault(rs, 0) + 1);
         }
-        int ans = -1;
-        for(int v : h.values()){
-            ans = Math.max(ans, v);
-        }
-        return ans;
+        
+        return Collections.max(h.values());
     }
 }
