@@ -1,20 +1,22 @@
 class Solution {
     public int[] resultsArray(int[] nums, int k) {
+        if (k == 1) return nums;
         int n = nums.length;
-        int[] ans = new int[n - k + 1];
-        int ind = 0;
-        int l = 0;
-        int cnt = 1;
-        for(int r =0;r < n;r++){
-            if(r > 0 && nums[r] - nums[r-1] == 1) cnt++;
-            if(r - l + 1 > k){
-                if(nums[l+1] - nums[l] == 1) cnt --;
-                l++;
+        int[] res = new int[n-k+1];
+        Arrays.fill(res,-1);
+        int count = 1;
+        for(int i=0; i<n-1; i++){
+            if(nums[i+1] == nums[i]+1){
+                count++;
+            }else{
+                count = 1;
             }
-            if((r - l + 1) == k){
-                ans[ind++] = (cnt == k) ? nums[r] : -1;
+
+            if (count >= k){
+                res[i-k+2] = nums[i+1];
             }
         }
-        return ans;
+
+        return res;
     }
 }
