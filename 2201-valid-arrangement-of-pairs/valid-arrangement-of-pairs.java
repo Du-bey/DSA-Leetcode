@@ -1,9 +1,7 @@
 class Solution {
 
-    private Map<Integer, List<Integer>> adj = new HashMap<>();
-    private List<Integer> eulerPath = new ArrayList<>();
-
     public int[][] validArrangement(int[][] pairs) {
+        Map<Integer, List<Integer>> adj = new HashMap<>();
         int n = pairs.length;
 
         HashMap<Integer, Integer> in = new HashMap<>();
@@ -24,7 +22,21 @@ class Solution {
                 break;
             }
         }
-        dfs(start);
+        List<Integer> eulerPath = new ArrayList<>();
+        Stack<Integer> stack = new Stack<>();
+        stack.push(start);
+
+        while (!stack.isEmpty()) {
+            int curr = stack.peek();
+            if (adj.containsKey(curr) && !adj.get(curr).isEmpty()) {
+                int neighbor = adj.get(curr).remove(adj.get(curr).size() - 1);
+                stack.push(neighbor);
+            } else {
+                eulerPath.add(curr);
+                stack.pop();
+            }
+        }
+
         int[][] ans = new int[n][2];
         Collections.reverse(eulerPath);
         for(int i =0;i<eulerPath.size() - 1;i++){
@@ -32,13 +44,5 @@ class Solution {
             ans[i][1] = eulerPath.get(i+1);
         }
         return ans;
-    }
-
-    public void dfs(int node){
-        while (adj.containsKey(node) && !adj.get(node).isEmpty()) {
-            int nextNode = adj.get(node).remove(adj.get(node).size() - 1);
-            dfs(nextNode);
-        }
-        eulerPath.add(node); 
     }
 }
