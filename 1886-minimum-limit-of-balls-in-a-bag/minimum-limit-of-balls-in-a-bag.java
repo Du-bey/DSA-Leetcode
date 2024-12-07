@@ -2,7 +2,7 @@ class Solution {
     private boolean canDivide(int[] nums, int maxBalls, int maxOperations) {
         int ops = 0;
         for (int n : nums) {
-            ops += (n + maxBalls - 1) / maxBalls - 1;
+            ops += (n-1) / maxBalls;
             if (ops > maxOperations) return false;
         }
         return true;
