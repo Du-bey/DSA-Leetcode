@@ -1,52 +1,55 @@
 class Solution {
     public int[] searchRange(int[] nums, int target) {
-        int first = -1;
-        int last = -1;
+        
         int n = nums.length;
-        int lb = lowerBound(nums, target);
-        if((lb == n) || nums[lb] != target){
+        int lbi = lb(nums, target);
+        if(lbi == n || nums[lbi] != target){
             int[] temp = {-1, -1};
             return temp;
         }
-        int [] ans = new int[2];
-        ans[0] = lb;
-        ans[1] = upperBound(nums, target) - 1;
+        int[] ans = new int[2];
+        ans[0] = lbi;
+        int ubi = ub(nums, target);
+        ans[1] = ubi - 1;
         return ans;
     }
 
-    public int lowerBound(int[] nums, int t){
+    public int lb(int[] nums, int k) {
         int n = nums.length;
-        int lb = n;
-        int l = 0;
+        int l =0;
         int h = n-1;
+        int ans = n;
+
         while(l <= h){
-            int mid = (l+h)/2;
-            if(nums[mid] >= t){
-                lb = mid;
-                h = mid - 1;
+            int m = (l+h) / 2;
+            int mid = nums[m];
+            if(mid >= k){
+                h = m -1;
+                ans = m;
             }
             else{
-                l = mid + 1;
+                l = m + 1;
             }
         }
-        return lb;
+        return ans;
     }
 
-    public int upperBound(int[] nums, int t){
+    public int ub(int[] nums, int k) {
         int n = nums.length;
-        int ub = n;
-        int l = 0;
+        int l =0;
         int h = n-1;
+        int ans = n;
         while(l <= h){
-            int mid = (l+h)/2;
-            if(nums[mid] > t){
-                ub = mid;
-                h = mid - 1;
+            int m = (l+h) / 2;
+            int mid = nums[m];
+            if(mid > k){
+                h = m -1;
+                ans = m;
             }
             else{
-                l = mid + 1;
+                l = m + 1;
             }
         }
-        return ub;
+        return ans;
     }
 }
