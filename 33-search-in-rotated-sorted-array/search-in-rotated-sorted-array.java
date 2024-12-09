@@ -4,22 +4,23 @@ class Solution {
         int l = 0;
         int h = n-1;
         while(l <= h){
-            int mid = (l+h)/2;
+            int mid = (l+h) / 2;
             if(nums[mid] == target) return mid;
-
-            if(nums[l] <= nums[mid]){
-                if(nums[l] <= target && target <= nums[mid]){
-                    h = mid - 1;
+            if(nums[l] == target) return l;
+            if(nums[h] == target) return h;
+            if(nums[l] < nums[mid]){
+                if(nums[l] < target && target < nums[mid]){
+                    h = mid - 1;                    
                 }
                 else{
                     l = mid + 1;
                 }
             }
             else{
-                if(nums[mid] <= target && target <= nums[h]){
+                if(target < nums[h] && nums[mid] < target){
                     l = mid + 1;
                 }
-                else{
+                else {
                     h = mid - 1;
                 }
             }
