@@ -9,36 +9,30 @@ class Solution {
             min = Math.min(bloomDay[i], min);
         }
 
-        int l = min;
-        int h = max;
-        int ans = -1;
-        while(l <=h){
+        int l = min, h = max, ans = -1;
+
+        while(l <= h){
             int mid = (l+h)/2;
-            if(possible(bloomDay, mid, m, k)){
-                h = mid -1;
+            if(isPossible(mid, bloomDay, m , k)){
+                h = mid - 1;
                 ans = mid;
             }
-            else{
-                l = mid+1;
-            }
+            else l = mid + 1;
         }
         return ans;
     }
 
-    public boolean possible(int[] num, int v, int m, int k){
-        int cnt = 0;
-        int ans = 0;
-        for(int n : num){
-            if(n <= v){
-                cnt++;
-            }
+    public boolean isPossible(int mid, int[] bloomDay, int m, int k){
+        int b = 0;
+        int fl = 0;
+        for(int x : bloomDay){
+            if(mid >= x) fl++;
             else{
-                ans += cnt/k;
-                cnt = 0;
+                b += fl/k;
+                fl = 0;
             }
         }
-        ans += cnt/k;
-        if(ans >=m) return true;
-        return false;
+        b += fl/k;
+        return (b >= m);
     }
 }
