@@ -1,34 +1,30 @@
 class Solution {
-    public int smallestDivisor(int[] nums, int threshold) {
+    public int smallestDivisor(int[] nums, int t) {
         int l = 1;
-        int n = nums.length;
-        int max = -1;
-        for(int i =0;i<n;i++){
-            max = Math.max(max, nums[i]);
+        int h = 0;
+        for(int x : nums){
+            h = Math.max(h, x);
         }
-        int h = max;
-        int ans = h;
-
+        int ans = 0;
         while(l <= h){
             int m = (l+h)/2;
-            boolean p = possible(nums, m, threshold);
-            if(p){
-                h = m -1;
+            if(isPossible(m, nums, t)){
+                h = m - 1;
                 ans = m;
             }
-            else{
-                l = m+1;
-            }
+            else l = m + 1;
         }
-        return h + 1;
+        return ans;
     }
 
-    public boolean possible(int[] num, int v, int t){
+    public boolean isPossible(int m, int[] nums, int t) {
         int ans = 0;
-        for(int n : num){
-            ans += Math.ceil((double)n/(double)v);
+        for(int x : nums){
+            int rem = x % m;
+            int div = x / m;
+            if(rem > 0) div++;
+            ans += div;
         }
-        if(ans <=t) return true;
-        return false;
+        return ans <= t;
     }
 }
