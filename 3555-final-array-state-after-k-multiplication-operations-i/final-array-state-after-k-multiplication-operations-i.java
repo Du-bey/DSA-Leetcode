@@ -6,12 +6,9 @@ class Solution {
             int x=0;
             for(int i=1;i<arr.length;i++)
             {
-                if(arr[i]<arr[x])
-                {
-                    x=i;
-                }
+                if(arr[i]<arr[x]) x=i;
             }
-            arr[x]=arr[x]*multiplier;
+            arr[x] = arr[x] * multiplier;
             k--;
         }
         return arr;
