@@ -1,44 +1,32 @@
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
+
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        ListNode node = new ListNode(-1);
-        ListNode ans = node;
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a, b) -> a.a - b.a);
         int n = lists.length;
-        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b) -> a.val - b.val);
+        ListNode temp = new ListNode(0);
+        ListNode ans = temp;
         for(int i =0;i<n;i++){
-            ListNode temp =lists[i];
-            while(temp != null){
-                int data = temp.val;
-                Pair p = new Pair(data, temp);
-                pq.add(p);
-                temp = temp.next;
+            if(lists[i] != null){
+                pq.add(new Pair(lists[i].val, lists[i]));
             }
         }
         while(!pq.isEmpty()){
-            node.next = pq.poll().node;
+            Pair p = pq.poll();
+            ListNode node = p.b;
+            temp.next = node;
+            temp = temp.next;
             node = node.next;
+            if(node != null) pq.add(new Pair(node.val, node));
         }
-        node.next = null;
         return ans.next;
     }
-
 }
 
 class Pair{
-    int val;
-    ListNode node;
-
-    public Pair(int val, ListNode node){
-        this.val = val;
-        this.node = node;
+    int a;
+    ListNode b;
+    public Pair(int a, ListNode b){
+        this.a = a;
+        this.b = b;
     }
 }
