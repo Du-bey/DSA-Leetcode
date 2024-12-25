@@ -1,20 +1,20 @@
 class StockSpanner {
     Stack<Pair> st;
-    int ind = -1;
+    HashMap<Integer, Integer> h;
+    int cnt;
     public StockSpanner() {
         st = new Stack<>();
-        ind = -1;
+        cnt = -1;
     }
     
-    public int next(int price) { 
-        while(!st.isEmpty() && price >= st.peek().first){
+    public int next(int price) {
+        while(!st.isEmpty() && st.peek().first <= price){
             st.pop();
         }
-        ind++;
+        cnt++;
         int ans = st.isEmpty() ? -1 : st.peek().second;
-        ans = ind - ans;
-        st.push(new Pair(price, ind));
-        return ans;
+        st.push(new Pair(price, cnt));
+        return cnt - ans;
     }
 }
 
@@ -26,9 +26,3 @@ class Pair {
         this.second = second;
     }
 }
-
-/**
- * Your StockSpanner object will be instantiated and called as such:
- * StockSpanner obj = new StockSpanner();
- * int param_1 = obj.next(price);
- */
