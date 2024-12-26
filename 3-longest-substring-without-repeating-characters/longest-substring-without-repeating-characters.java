@@ -6,13 +6,10 @@ class Solution {
         int ans = 0;
         for(int r = 0;r< n;r++){
             char c = s.charAt(r);
-            while(h.containsKey(c)){
-                char ch = s.charAt(l);
-                h.put(ch, h.get(ch) - 1);
-                if(h.get(ch) <= 0) h.remove(ch);
-                l++;
+            if(h.containsKey(c)){
+                l = Math.max(h.get(c) + 1, l);
             }
-            h.put(c, h.getOrDefault(c, 0) + 1);
+            h.put(c, r);
             ans = Math.max(ans, r - l + 1);
         }
         return ans;
