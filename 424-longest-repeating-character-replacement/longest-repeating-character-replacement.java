@@ -2,10 +2,8 @@ class Solution {
     public int characterReplacement(String s, int k) {
         Map<Character,Integer> map = new HashMap<>();
         int n = s.length();
-        int l =0;
-        int r = 0;
-        int ans = 0;
-        int maxFreq = 0;
+        int l =0, r = 0, ans = 0,maxFreq = 0;
+        
         while(r < n){
             char c = s.charAt(r);
             map.put(c, map.getOrDefault(c, 0) + 1);
