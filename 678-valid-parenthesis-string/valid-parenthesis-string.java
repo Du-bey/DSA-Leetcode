@@ -10,16 +10,15 @@ class Solution {
                 max++;
             }
             else if(c == ')'){
-                min--;
+                min = Math.max(0, min - 1);
                 max--;
             }
-            else {
-                min--;
+            else{
+                min = Math.max(0, min - 1);
                 max++;
             }
-            min = Math.max(0, min);
             if(max < 0) return false;
         }
-        return min < 1;
+        return min == 0;
     }
 }
