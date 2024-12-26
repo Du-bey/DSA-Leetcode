@@ -1,20 +1,21 @@
 class Solution {
     public String minWindow(String s, String t) {
-        int[] hash = new int[256];
         int n = s.length();
         int m = t.length();
-        for(int i =0;i<m;i++) {
-            hash[t.charAt(i) - 'A']++;
+
+        int[] freq = new int[256];
+        for(int i = 0;i<m;i++){
+            freq[t.charAt(i) - 'A']++;
         }
-        int l =0;
-        int r =0;
-        int si = -1;
+        int l = 0;
+        int r = 0;
         int minLen = Integer.MAX_VALUE;
+        int si = -1;
         int cnt = 0;
         while(r < n){
             char c = s.charAt(r);
-            if(hash[c - 'A'] > 0) cnt++;
-            hash[c - 'A']--;
+            if(freq[c - 'A'] > 0) cnt++;
+            freq[c - 'A']--;
             while(cnt == m){
                 int len = r - l + 1;
                 if(minLen > len){
@@ -22,8 +23,8 @@ class Solution {
                     si = l;
                 }
                 char c2 = s.charAt(l);
-                hash[c2 - 'A']++;
-                if(hash[c2 - 'A'] > 0) cnt--;
+                freq[c2 - 'A']++;
+                if(freq[c2 - 'A'] > 0) cnt--;
                 l++;
             }
             r++;
