@@ -22,14 +22,14 @@ class Solution {
             if(root.val > val){
                 if(root.left == null){
                     root.left = newNode;
-                    return node;
+                    break;
                 }
                 root = root.left;
             }
             else{
                 if(root.right == null){
                     root.right = newNode;
-                    return node;
+                    break;
                 }
                 root = root.right;
             }
