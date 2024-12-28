@@ -33,12 +33,13 @@ class Solution {
 
         List<List<Integer>> ans = new ArrayList<>();
         for(TreeMap<Integer, PriorityQueue<Integer>> ys : h.values()){
-            ans.add(new ArrayList<>());
+            List<Integer> temp = new ArrayList<>();
             for(PriorityQueue<Integer> nodes : ys.values()){
                 while(!nodes.isEmpty()){
-                    ans.get(ans.size() - 1).add(nodes.poll());
+                    temp.add(nodes.poll());
                 }
             }
+            ans.add(temp);
         }
         return ans;
     }
