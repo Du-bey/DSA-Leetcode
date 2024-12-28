@@ -15,22 +15,23 @@
  */
 class Solution {
     public List<Integer> rightSideView(TreeNode root) {
-        List<Integer> ans = new ArrayList<>();
-        if (root == null) {
-            return ans;
-        }
         Queue<TreeNode> q = new LinkedList<>();
+        List<Integer> ans = new ArrayList<>();
+        if(root == null) return ans;
         q.add(root);
         while(!q.isEmpty()){
-            int len = q.size();
-            TreeNode node = null;
-            for(int i =0;i<len;i++){
-                node = q.peek();
-                q.poll();
-                if(node.left != null) q.add(node.left);
+            int size = q.size();
+            boolean first = true;
+            for(int i =0;i<size;i++){
+                TreeNode node = q.poll();
+                if(first){
+                    first = false;
+                    ans.add(node.val);
+                }
                 if(node.right != null) q.add(node.right);
+                if(node.left != null) q.add(node.left);
             }
-            ans.add(node.val);
+            
         }
         return ans;
     }
