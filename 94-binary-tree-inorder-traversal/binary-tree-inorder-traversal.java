@@ -17,24 +17,24 @@ class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> ans = new ArrayList<>();
         TreeNode cur = root;
-        while(cur != null){
-            if(cur.left == null){
-                ans.add(cur.val);
-                cur = cur.right;
+        while(root != null){
+            if(root.left == null){
+                ans.add(root.val);
+                root = root.right;
             }
             else{
-                TreeNode temp = cur.left;
-                while(temp.right != null && temp.right != cur){
-                    temp = temp.right;
+                TreeNode prev = root.left;
+                while(prev.right != null && prev.right != root){
+                    prev = prev.right;
                 }
-                if(temp.right == null){
-                    temp.right = cur;
-                    cur = cur.left;
+                if(prev.right == root){
+                    prev.right = null;
+                    ans.add(root.val);
+                    root = root.right;
                 }
                 else{
-                    temp.right = null;
-                    ans.add(cur.val);
-                    cur = cur.right;
+                    prev.right = root;
+                    root = root.left;
                 }
             }
         }
