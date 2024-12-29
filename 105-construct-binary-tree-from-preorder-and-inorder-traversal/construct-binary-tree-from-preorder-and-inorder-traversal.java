@@ -23,13 +23,15 @@ class Solution {
         return buildTree(preorder, 0, n-1, inorder, 0, n-1, h);
     }
 
-    public TreeNode buildTree(int[] preorder, int ps, int pe, int[] inorder, int is, int ie, HashMap<Integer, Integer> h){
+    public TreeNode buildTree(int[] preorder, int ps, int pe, int[] inorder, int is, int ie, HashMap<Integer, Integer> h) {
         if(ps > pe || is > ie) return null;
-        TreeNode root = new TreeNode(preorder[ps]);
-        int inroot = h.get(root.val);
-        int numsleft = inroot - is;
-        root.left = buildTree(preorder, ps + 1, ps + numsleft, inorder, is, inroot - 1, h);
-        root.right = buildTree(preorder, ps + numsleft + 1, pe, inorder, inroot + 1, ie, h);
+        int rootVal = preorder[ps];
+        int ind = h.get(rootVal);
+        int numsLeft = ind - is;
+        TreeNode root = new TreeNode(rootVal);
+        root.left = buildTree(preorder, ps+1, ps + numsLeft, inorder, is, ind - 1, h);
+        root.right = buildTree(preorder, ps + numsLeft + 1, pe, inorder, ind + 1, ie, h);
         return root;
     }
+
 }
