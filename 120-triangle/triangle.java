@@ -1,22 +1,16 @@
 class Solution {
-    public int minimumTotal(List<List<Integer>> triangle) {
-        int n = triangle.size();
-        int[][] dp = new int[n][n];
-        for(int[] r : dp){
-            Arrays.fill(r, -1);
+    public int minimumTotal(List<List<Integer>> t) {
+        int n = t.size();
+        if(n == 1) return t.get(0).get(0);
+        int[][] dp = new int[n+1][n+1];
+        for(int i = n-1;i>=0;i--){
+            for(int ind = i;ind >=0;ind--){
+                int down = dp[i+1][ind];
+                int right = dp[i+1][ind+1];
+                int ans = Math.min(down, right) + t.get(i).get(ind);
+                dp[i][ind] = ans;
+            }
         }
-        return f(0, 0, n, triangle, dp);
-    }
-
-    public int f(int i, int ind, int n, List<List<Integer>> t, int[][] dp){
-        if(i == n) return 0;
-        if(dp[i][ind] != -1) return dp[i][ind];
-
-        int ans = Integer.MAX_VALUE;
-        int down = f(i+1, ind, n, t, dp);
-        int right = f(i+1, ind + 1, n, t, dp);
-        int min = Math.min(down, right);
-        ans = Math.min(ans, min);
-        return dp[i][ind] = ans + t.get(i).get(ind);
+        return dp[0][0];
     }
 }
