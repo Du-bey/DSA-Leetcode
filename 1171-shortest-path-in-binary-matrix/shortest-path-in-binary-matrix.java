@@ -6,7 +6,7 @@ class Solution {
         int[] dr = {0, -1, -1, -1, 0, 1, 1, 1};
         int[] dc = {-1, -1, 0, 1, 1, 1, 0, -1};
 
-        PriorityQueue<tuple> pq = new PriorityQueue<>((a, b) -> a.first - b.first);
+        Queue<tuple> pq = new LinkedList<>();
         pq.add(new tuple(1, 0, 0));
         int[][] dis = new int[n][n];
         for(int i = 0;i<n;i++) {
