@@ -15,7 +15,7 @@ class Solution {
             }
         }
         dis[0][0] = 1;
-        //grid[0][0] = -1;
+        grid[0][0] = -1;
         while(!pq.isEmpty()){
             tuple t = pq.poll();
             int d = t.first;
@@ -29,7 +29,7 @@ class Solution {
                     if(dis[newr][newc] > d+1){
                         dis[newr][newc] = d + 1;
                         pq.add(new tuple(dis[newr][newc], newr, newc));
-                        //grid[newr][newc] = -1;
+                        grid[newr][newc] = -1;
                     }
                 }
             }
