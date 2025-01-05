@@ -35,7 +35,7 @@ class Solution {
                 int nc = c + dc[i];
                 if(nr >=0 && nr < n && nc >= 0 && nc < m && grid[nr][nc] == 1 && !vis[nr][nc]){
                     q.add(new Triplet(t + 1, nr, nc));
-                    ans[nr][nc] = Math.min(ans[nr][nc], t+1);
+                    ans[nr][nc] = t+1;
                     vis[nr][nc] = true;
                 }
             }
