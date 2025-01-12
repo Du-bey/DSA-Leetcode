@@ -1,24 +1,30 @@
 class Solution {
     public String shiftingLetters(String s, int[][] shifts) {
         int n = s.length();
-        int[] shift = new int[n + 1];
+        int[] shiftArray = new int[n];
 
-        for (int[] shiftOp : shifts) {
-            int start = shiftOp[0], end = shiftOp[1], direction = shiftOp[2];
-            shift[start] += (direction == 1 ? 1 : -1);
-            if (end + 1 < n) shift[end + 1] -= (direction == 1 ? 1 : -1);
+        for (int[] r : shifts) {
+            int st = r[0];
+            int end = r[1];
+            int dir = r[2];
+            if (dir == 1) {
+                shiftArray[st]++;
+                if (end + 1 < n) shiftArray[end + 1]--;
+            } else {
+                shiftArray[st]--;
+                if (end + 1 < n) shiftArray[end + 1]++;
+            }
         }
 
-        int currentShift = 0;
-        for (int i = 0; i < n; ++i) {
-            currentShift += shift[i];
-            shift[i] = currentShift;
+        for (int i = 1; i < n; i++) {
+            shiftArray[i] += shiftArray[i - 1];
         }
 
-        StringBuilder result = new StringBuilder(s);
-        for (int i = 0; i < n; ++i) {
-            int netShift = (shift[i] % 26 + 26) % 26;
-            result.setCharAt(i, (char) ('a' + (s.charAt(i) - 'a' + netShift) % 26));
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            int currentShift = (shiftArray[i] % 26 + 26) % 26;
+            char newChar = (char) ('a' + (s.charAt(i) - 'a' + currentShift) % 26);
+            result.append(newChar);
         }
 
         return result.toString();
