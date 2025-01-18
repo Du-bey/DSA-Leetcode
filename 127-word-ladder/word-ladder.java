@@ -1,30 +1,29 @@
 class Solution {
-    public int ladderLength(String begin, String end, List<String> list) {
-        int n1 = list.size();
-        if(!list.contains(end)) return 0;
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
         HashSet<String> h = new HashSet<>();
-        for(int i =0;i<n1;i++){
-            h.add(list.get(i));
+        for(String s : wordList){
+            h.add(s);
         }
-        h.remove(begin);
+        h.remove(beginWord);
+        if(!h.contains(endWord)) return 0;
+
         Queue<Pair> q = new LinkedList<>();
-        q.add(new Pair(begin, 1));
+        q.add(new Pair(beginWord, 1));
         while(!q.isEmpty()){
             Pair p = q.poll();
             String s = p.s;
-            int lev = p.level;
+            int l = p.l;
+            if(s.equals(endWord)) return l;
 
-            if(s.equals(end)) return lev;
-
-            int n = s.length();
-            for(int i =0;i<n;i++){
-                char[] c= s.toCharArray();
-                for(char ch ='a';ch<='z';ch++){
-                    c[i] = ch;
-                    String s2 = new String(c);
-                    if(h.contains(s2)){
-                        h.remove(s2);
-                        q.add(new Pair(s2, lev + 1));
+            int slen = s.length();
+            for(int i =0;i<slen;i++){
+                for(char c = 'a'; c <= 'z'; c++){
+                    char[] ch = s.toCharArray();
+                    ch[i] = c;
+                    String newS = new String(ch);
+                    if(h.contains(newS)){
+                        h.remove(newS);
+                        q.add(new Pair(newS, l +1));
                     }
                 }
             }
@@ -35,9 +34,9 @@ class Solution {
 
 class Pair{
     String s;
-    int level;
-    public Pair(String s, int level){
+    int l;
+    public Pair(String s, int l){
         this.s = s;
-        this.level = level;
+        this.l = l;
     }
 }
