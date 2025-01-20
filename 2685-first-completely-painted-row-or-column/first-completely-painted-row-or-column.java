@@ -2,39 +2,32 @@ class Solution {
     public int firstCompleteIndex(int[] arr, int[][] mat) {
         int n = mat.length;
         int m = mat[0].length;
-        HashMap<Integer, Pair> h = new HashMap<>();
-        int[] row = new int[n];
-        int[] col = new int[m];
-
-        for(int i =0;i<mat.length;i++){
-            for(int j =0;j<mat[0].length;j++){
-                int x = mat[i][j];
-                h.put(x , new Pair(i, j));
-                
-                row[i] += x;
-                col[j] += x;
-            }
-        }
+        HashMap<Integer, Integer> h = new HashMap<>();
 
         for(int i =0;i<arr.length;i++){
-            int x = arr[i];
-            Pair p = h.get(x);
-            int r = p.r;
-            int c = p.c;
-
-            row[r] -= x;
-            col[c] -= x;
-            if(row[r] == 0 || col[c] == 0) return i;
+            h.put(arr[i], i);
         }
-        return -1;
-    }
-}
 
-class Pair{
-    int r;
-    int c;
-    public Pair(int r, int c){
-        this.r = r;
-        this.c = c;
+        int ans = arr.length;
+        for(int i =0;i<mat.length;i++){
+            int temp = -1;
+            for(int j =0;j<mat[0].length;j++){
+                int x = mat[i][j];
+                int ind = h.get(x);
+                temp = Math.max(temp, ind);
+            }
+            ans = Math.min(temp, ans);
+        }
+        
+        for(int j =0;j<mat[0].length;j++){
+            int temp = -1;
+            for(int i =0;i<mat.length;i++){
+                int x = mat[i][j];
+                int ind = h.get(x);
+                temp = Math.max(temp, ind);
+            }
+            ans = Math.min(temp, ans);
+        }
+        return ans;
     }
 }
