@@ -27,8 +27,8 @@ class Solution {
         if(i >= j) return 1;
         if(dp[i][j] != -1) return dp[i][j];
         if(s.charAt(i) == s.charAt(j)){
-            return f(s, i+1, j-1, dp);
+            return dp[i][j] = f(s, i+1, j-1, dp);
         }
-        return 0;
+        return dp[i][j] = 0;
     }
 }
