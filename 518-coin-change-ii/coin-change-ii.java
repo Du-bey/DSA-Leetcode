@@ -6,6 +6,9 @@ class Solution {
             dp[0][t] = (t%coins[0] == 0) ? 1 : 0;
             
         }
+        for(int i =0;i<n;i++){
+            dp[i][0] = 1;
+        }
         for(int i =1;i<n;i++){
             for(int j =0;j<= target;j++){
                 int notTake = dp[i-1][j];
