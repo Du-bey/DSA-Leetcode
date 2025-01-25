@@ -1,29 +1,21 @@
 class Solution {
-    int mod = 100000000;
-    public int coinChange(int[] coins, int t) {
+    public int coinChange(int[] coins, int amount) {
         int n = coins.length;
-        int[][] dp = new int[n+1][t+1];
-        for(int[] row : dp){
-            Arrays.fill(row, -1);
+        int[][] dp = new int[n+2][amount+1];
+        for(int i =0;i<=amount;i++){
+            dp[0][i] = 100000000;
         }
-        int ans = f(n, t, coins, dp);
-        if(ans >= mod){
-            return -1;
+        dp[0][0] = 0;
+        for(int i =1;i<=n;i++){
+            for(int t = 1;t<=amount;t++){
+                int take = 100000000;
+                if(coins[i-1] <= t) take = 1 + dp[i][t - coins[i-1]];
+                int notTake = dp[i-1][t];
+                
+                dp[i][t] = Math.min(take, notTake);
+            }
         }
-        return ans;
-    }
-
-    public int f(int ind, int t, int[] coins, int[][] dp){
-        if(ind == 0){
-            return t == 0 ? 0 : mod;
-        }
-        if(dp[ind][t] != -1) return dp[ind][t];
-        int notTake = f(ind-1, t, coins, dp);
-        int take = mod;
-        if(coins[ind-1] <= t){
-            take = 1 + f(ind, t-coins[ind-1], coins, dp);
-        }
-        dp[ind][t] = Math.min(take, notTake);
-        return dp[ind][t];
+        int ans = dp[n][amount];
+        return ans == 100000000 ? -1 : ans;
     }
 }
