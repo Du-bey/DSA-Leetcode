@@ -9,32 +9,31 @@ class Solution {
         boolean[][] vis = new boolean[n][m];
         Queue<Triplet> q = new LinkedList<>();
         for(int i =0;i<n;i++){
-            for(int j =0;j<m;j++){
+            for(int j=0;j<m;j++){
                 if(grid[i][j] == 2){
-                    q.add(new Triplet(0, i, j));
                     vis[i][j] = true;
+                    q.add(new Triplet(0, i, j));
                 }
             }
         }
         int ans = 0;
         while(!q.isEmpty()){
-            Triplet trip = q.poll();
-            int t = trip.a;
-            int r = trip.b;
-            int c = trip.c;
-
-            ans = Math.max(ans, t);
+            Triplet t = q.poll();
+            int dis = t.a;
+            int r = t.b;
+            int c = t.c;
+            ans = Math.max(ans, dis);
             for(int i =0;i<4;i++){
                 int nr = r + dr[i];
                 int nc = c + dc[i];
-                if(nr >=0 && nc >= 0 && nr < n && nc < m && grid[nr][nc] == 1 && !vis[nr][nc]){
-                    q.add(new Triplet(t+1, nr, nc));
+                if(nr >=0 && nc >= 0 && nr < n && nc < m && !vis[nr][nc] && grid[nr][nc] == 1){
+                    q.add(new Triplet(dis + 1, nr, nc));
                     vis[nr][nc] = true;
                 }
             }
         }
         for(int i =0;i<n;i++){
-            for(int j =0;j<m;j++){
+            for(int j=0;j<m;j++){
                 if(grid[i][j] == 1 && !vis[i][j]){
                     return -1;
                 }
