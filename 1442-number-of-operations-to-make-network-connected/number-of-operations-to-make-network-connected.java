@@ -1,79 +1,72 @@
 class Solution {
-    public int makeConnected(int n, int[][] connections) {
-        DisjointSet ds = new DisjointSet(n);
+    public int makeConnected(int n, int[][] c) {
+        DisjointSet1 ds = new DisjointSet1(n);
         int extra = 0;
-        for(int[] r : connections){
-            int a = r[0];
-            int b = r[1];
-            if(!ds.unionBySize(a, b)) extra++;
+        for(int[] r: c){
+            int u = r[0];
+            int v = r[1];
+            if(!ds.unionBySize(u, v)) extra++;
         }
         int reqd = 0;
         for(int i =0;i<n;i++){
-            if(ds.findUPar(i) == i){
-                reqd++;
-            }
+            if(ds.findUPar(i) == i) reqd++;
         }
         reqd--;
         return (extra >= reqd) ? reqd : -1;
     }
 }
 
-public class DisjointSet {
-    List<Integer> rank = new ArrayList<>();
-    List<Integer> parent = new ArrayList<>();
-    List<Integer> size = new ArrayList<>();
+public class DisjointSet1 {
+    int[] par;
+    int[] rank;
+    int[] size;
 
-    public DisjointSet(int n){
-        for(int i = 0;i<=n;i++){
-            size.add(1);
-            rank.add(0);
-            parent.add(i);
+    public DisjointSet1(int n){
+        par =  new int[n];
+        rank = new int[n];
+        size = new int[n];
+        for(int i= 0;i<n;i++){
+            par[i] = i;
+            rank[i] = 0;
+            size[i] = 1;
         }
     }
 
-    public int findUPar(int node){
-        int par = parent.get(node);
-        if(par == node) return node;
-        int upar = findUPar(par);
-        parent.set(node, upar);
-        return upar;
+    public int findUPar(int u){
+        int p = par[u];
+        if(p == u) return u;
+        par[u] = findUPar(p);
+        return par[u];
     }
 
-    public boolean unionByRank(int u, int v){
-        int up = findUPar(u);
-        int vp = findUPar(v);
-
-        if(up == vp) return false;
-        int ru = rank.get(u);
-        int rv = rank.get(v);
-        if(rv > ru){
-            parent.set(up, vp);
-        }
-        else if(ru > rv){
-            parent.set(vp, up);
+    public boolean unionBySize(int u, int v){
+        int upar = findUPar(u);
+        int vpar = findUPar(v);
+        if(upar == vpar) return false;
+        if(size[vpar] > size[upar]){
+            par[upar] = vpar;
+            size[vpar] += size[upar];
         }
         else{
-            parent.set(vp, up);
-            int upRank = rank.get(up);
-            upRank++;
-            rank.set(up, upRank);
+            par[vpar] = upar;
+            size[upar] += size[vpar];
         }
         return true;
     }
 
-    public boolean unionBySize(int u, int v){
-        int up = findUPar(u);
-        int vp = findUPar(v);
-        if(up == vp) return false;
-        int su = size.get(u);
-        int sv = size.get(v);
-        if(sv > su){
-            parent.set(up, vp);
-            size.set(vp, size.get(up) + size.get(vp));
+    public boolean unionByRank(int u, int v){
+        int upar = findUPar(u);
+        int vpar = findUPar(v);
+        if(upar == vpar) return false;
+        if(rank[vpar] > rank[upar]){
+            par[upar] = vpar;
+        }
+        else if(rank[vpar] < rank[upar]){
+            par[vpar] = upar;
         }
         else{
-            parent.set(vp, up);
-            size.set(up, size.get(up) + size.get(vp));
+            par[vpar] = upar;
+            rank[upar]++;
         }
         return true;
     }
