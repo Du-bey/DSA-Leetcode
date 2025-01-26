@@ -1,43 +1,40 @@
 class Solution {
-    public int minimumEffortPath(int[][] heights) {
-        int n = heights.length;
-        int m = heights[0].length;
-        PriorityQueue<tuple> q = new PriorityQueue<tuple>((x, y) -> x.first - y.first);
+    public int minimumEffortPath(int[][] grid) {
+
+        int n = grid.length;
+        int m = grid[0].length;
+
+        int[] dr = {0, 1, 0, -1};
+        int[] dc = {1, 0, -1, 0};
+
+        PriorityQueue<tuple> pq = new PriorityQueue<>((a, b) -> a.first - b.first);
+        pq.add(new tuple(0, 0, 0));
         int[][] dis = new int[n][m];
         for(int i = 0;i<n;i++) {
             for(int j =0;j<m;j++) {
-                dis[i][j] = (int)(1e9);
+                dis[i][j] = (int) 1e9;
             }
         }
         dis[0][0] = 0;
-        q.add(new tuple(0, 0, 0));
-
-        int[] dr = {-1, 0, 1, 0};
-        int[] dc = {0, 1, 0, -1};
-
-        while(!q.isEmpty()) {
-            tuple it = q.peek();
-            q.remove();
-            int d = it.first;
-            int r = it.second;
-            int c = it.third;
-
+        while(!pq.isEmpty()){
+            tuple t = pq.poll();
+            int d = t.first;
+            int r = t.second;
+            int c = t.third;
             if(r == n-1 && c == m-1) return d;
-
             for(int i =0;i<4;i++){
                 int newr = r + dr[i];
                 int newc = c + dc[i];
-
-                if(newr >= 0 && newr < n && newc >= 0 && newc < m) {
-                    int newEffort = Math.max(Math.abs(heights[newr][newc] - heights[r][c]), d);
+                if(newr >=0 && newc >=0 && newr <n && newc <m){
+                    int newEffort = Math.max(Math.abs(grid[newr][newc] - grid[r][c]), d);
                     if(newEffort < dis[newr][newc]){
                         dis[newr][newc] = newEffort;
-                        q.add(new tuple(newEffort, newr, newc));
+                        pq.add(new tuple(dis[newr][newc], newr, newc));
                     }
                 }
             }
         }
-    return 0;
+        return 0;
     }
 }
 
