@@ -9,7 +9,7 @@ class Solution {
             combine[i][1] = speed[i];
         }
 
-        Arrays.sort(combine, (r1, r2) -> Integer.compare(r1[0] , r2[0]));
+        Arrays.sort(combine, (r1, r2) -> r1[0] - r2[0]);
         for(int i = n-1; i>=0;i--){
             double time = (double) (target - combine[i][0]) / combine[i][1];
             if(!st.isEmpty() && time <= st.peek()){
