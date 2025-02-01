@@ -3,12 +3,18 @@ class Solution {
         int n = nums.length;
         k = k % n;
         if(k == 0) return;
-        int[] temp = new int[n];
-        for(int i =0;i<n;i++){
-            temp[(i+k) % n] = nums[i];
-        }
-        for(int i =0;i<n;i++){
-            nums[i] = temp[i];
+        reverse(0, n-1, nums);
+        reverse(0, k-1, nums);
+        reverse(k, n-1, nums);
+    }
+
+    public void reverse(int i, int j, int[] nums){
+        while(i < j){
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+            i++;
+            j--;
         }
     }
 }
