@@ -1,24 +1,22 @@
 class Solution {
-    public List<List<Integer>> combinationSum(int[] can, int t) {
-        int n = can.length;
+    public List<List<Integer>> combinationSum(int[] nums, int t) {
         List<List<Integer>> ans = new ArrayList<>();
-        f(0, t, can, ans, new ArrayList<>());
+        f(0, nums, t, new ArrayList<>(), ans);
         return ans;
     }
 
-    public void f(int i, int t, int[] can, List<List<Integer>> ans, List<Integer> l){
-        if(i == can.length){
+    public void f(int i, int[] nums, int t, List<Integer> temp, List<List<Integer>> ans){
+        if(i == nums.length){
             if(t == 0){
-                ans.add(new ArrayList < > (l));
+                ans.add(new ArrayList<>(temp));
             }
             return;
         }
-        if(can[i] <= t){
-            l.add(can[i]);
-            f(i, t - can[i], can, ans, l);
-            l.remove(l.size() - 1);
+        if(nums[i] <= t){
+            temp.add(nums[i]);
+            f(i, nums, t - nums[i], temp, ans);
+            temp.remove(temp.size() - 1);
         }
-        f(i+1, t, can, ans, l);
-
+        f(i+1, nums, t, temp, ans);
     }
 }
