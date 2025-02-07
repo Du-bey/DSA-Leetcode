@@ -1,31 +1,29 @@
 class Solution {
     public int[] searchRange(int[] nums, int target) {
-        
         int n = nums.length;
-        int lbi = lb(nums, target);
+        int lbi = lb(nums, target, n);
+        int[] temp = new int[2];
         if(lbi == n || nums[lbi] != target){
-            int[] temp = {-1, -1};
+            temp[0] = -1;
+            temp[1] = -1;
             return temp;
         }
-        int[] ans = new int[2];
-        ans[0] = lbi;
-        int ubi = ub(nums, target);
-        ans[1] = ubi - 1;
-        return ans;
+        int ubi = ub(nums, target, n);
+        temp[0] = lbi;
+        temp[1] = ubi - 1;
+        return temp;
     }
 
-    public int lb(int[] nums, int k) {
-        int n = nums.length;
-        int l =0;
-        int h = n-1;
+    public int lb(int[] nums, int target, int n){
+        int l = 0;
+        int h = n - 1;
         int ans = n;
-
         while(l <= h){
-            int m = (l+h) / 2;
+            int m = (l + h) / 2;
             int mid = nums[m];
-            if(mid >= k){
-                h = m -1;
+            if(mid >= target){
                 ans = m;
+                h = m - 1;
             }
             else{
                 l = m + 1;
@@ -34,17 +32,16 @@ class Solution {
         return ans;
     }
 
-    public int ub(int[] nums, int k) {
-        int n = nums.length;
-        int l =0;
-        int h = n-1;
+    public int ub(int[] nums, int target, int n){
+        int l = 0;
+        int h = n - 1;
         int ans = n;
         while(l <= h){
-            int m = (l+h) / 2;
+            int m = (l + h) / 2;
             int mid = nums[m];
-            if(mid > k){
-                h = m -1;
+            if(mid > target){
                 ans = m;
+                h = m - 1;
             }
             else{
                 l = m + 1;
@@ -52,4 +49,5 @@ class Solution {
         }
         return ans;
     }
+
 }
