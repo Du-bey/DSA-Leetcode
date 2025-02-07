@@ -10,17 +10,18 @@ class Solution {
 
                 String squareKey = (r / 3) + "," + (c / 3);
 
-                if (rows.computeIfAbsent(r, k -> new HashSet<>()).contains(board[r][c]) ||
-                    cols.computeIfAbsent(c, k -> new HashSet<>()).contains(board[r][c]) ||
-                    squares.computeIfAbsent(squareKey, k -> new HashSet<>()).contains(board[r][c])) {
+                rows.putIfAbsent(r, new HashSet<>());
+                cols.putIfAbsent(c, new HashSet<>());
+                squares.putIfAbsent(squareKey, new HashSet<>());
+
+                if (!rows.get(r).add(board[r][c]) ||
+                    !cols.get(c).add(board[r][c]) ||
+                    !squares.get(squareKey).add(board[r][c])) {
                     return false;
                 }
-
-                rows.get(r).add(board[r][c]);
-                cols.get(c).add(board[r][c]);
-                squares.get(squareKey).add(board[r][c]);
             }
         }
         return true;
+
     }
 }
