@@ -1,20 +1,22 @@
 class Solution {
-    public int[] plusOne(int[] d) {
-        int n = d.length;
-        List<Integer> ans = new ArrayList<>();
-        int i = n-1;
-        int car = 1;
-        while(i >= 0){
-            int x = d[i] + car;
-            car = x / 10;
-            ans.add(0, x % 10);
-            i--;
+    public int[] plusOne(int[] digits) {
+        int c = 1;
+        int n = digits.length;
+        for(int i = n-1;i>=0;i--){
+            int num = digits[i];
+            num = num + c;
+            c = num / 10;
+            num = num % 10;
+            digits[i] = num;
         }
-        if(car == 1) ans.add(0, car);
-        int[] res = new int[ans.size()];
-        for(int j=0;j<ans.size();j++){
-            res[j] = ans.get(j);
+        if(c > 0){
+            int[] ans = new int[n+1];
+            ans[0] = 1;
+            for(int i =0;i<n;i++){
+                ans[i+1] = digits[i];
+            }
+            return ans;
         }
-        return res;
+        return digits;
     }
 }
