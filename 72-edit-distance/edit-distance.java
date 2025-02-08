@@ -12,17 +12,15 @@ class Solution {
     public int f(int i, int j, String s, String t, int[][] dp){
         if(j < 0) return i+1;
         if(i < 0) return j+1;
-        
         if(dp[i][j] != -1) return dp[i][j];
-
         if(s.charAt(i) == t.charAt(j)){
             dp[i][j] = f(i-1, j-1, s, t, dp);
         }
         else{
-            int in = f(i, j-1, s, t, dp);
-            int de = f(i-1, j, s, t, dp);
-            int re = f(i-1, j-1, s, t, dp);
-            dp[i][j] = 1 + Math.min(in, Math.min(de, re));
+            int in = f(i-1, j, s, t, dp);
+            int del = f(i, j-1, s, t, dp);
+            int rep = f(i-1, j-1, s, t, dp);
+            dp[i][j] = 1 + Math.min(in, Math.min(del, rep));
         }
         return dp[i][j];
     }
