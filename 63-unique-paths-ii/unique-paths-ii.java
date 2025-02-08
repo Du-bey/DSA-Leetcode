@@ -14,7 +14,7 @@ class Solution {
     public int f(int i, int j, int m, int n, int[][] dp, int[][] grid){
         if(i == 0 && j == 0) return 1;
         if(i < 0 || j < 0) return 0;
-        
+
         if(dp[i][j] != -1) return dp[i][j];
         if(grid[i][j] == 1) return 0;
         return dp[i][j] = f(i-1, j, m, n, dp, grid) + f(i, j-1, m, n, dp, grid);
