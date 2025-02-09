@@ -1,7 +1,7 @@
 class Solution {
-    public List<Integer> largestDivisibleSubset(int[] num) {
-        Arrays.sort(num);
-        int n = num.length;
+    public List<Integer> largestDivisibleSubset(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
         int[] dp = new int[n];
         int[] hash = new int[n];
         int ind = 0;
@@ -10,24 +10,28 @@ class Solution {
             hash[i] = i;
         }
         int max = 1;
-        List<Integer> ans = new ArrayList<>();
-        for(int i = 1;i<n;i++){
+        for(int i =1;i<n;i++){
             for(int j =0;j<i;j++){
-                if(num[i] % num[j] == 0 && dp[i] < 1+dp[j]){
-                    dp[i] = 1 + dp[j];
-                    hash[i] = j;
+                if(nums[i] % nums[j] == 0){
+                    if(dp[i] < 1 + dp[j]){
+                        dp[i] = 1 + dp[j];
+                        hash[i] = j;
+                    }
                 }
             }
-            if(dp[i] > max){
-                ind = i;
+            if(max < dp[i]){
                 max = dp[i];
+                ind = i;
             }
         }
-        ans.add(num[ind]);
+
+        List<Integer> ans = new ArrayList<>();
+        ans.add(nums[ind]);
         while(hash[ind] != ind){
             ind = hash[ind];
-            ans.add(num[ind]);
+            ans.add(nums[ind]);
         }
+        Collections.reverse(ans);
         return ans;
     }
 }
