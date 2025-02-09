@@ -1,6 +1,11 @@
 class Solution {
+    int[][] d;
     public int minCut(String s) {
         int n = s.length();
+        d = new int[n][n];
+        for(int[] r : d){
+            Arrays.fill(r, -1);
+        }
         int[] dp = new int[n];
         Arrays.fill(dp, -1);
         return f(0, s, n, dp) - 1;
@@ -20,11 +25,17 @@ class Solution {
     }
 
     public boolean isPalindrome(int i, String s, int j){
+        if(d[i][j] != -1) return d[i][j] == 1 ? true : false;
+        boolean ans = true;
         while(i < j){
-            if(s.charAt(i) != s.charAt(j)) return false;
+            if(s.charAt(i) != s.charAt(j)){
+                ans = false;
+                break;
+            }
             i++;
             j--;
         }
-        return true;
+        d[i][j] = ans ? 1 : 0;
+        return ans;
     }
 }
