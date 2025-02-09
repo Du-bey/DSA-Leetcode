@@ -1,7 +1,7 @@
 class Solution {
     public int coinChange(int[] coins, int amount) {
         int n = coins.length;
-        int[][] dp = new int[n+2][amount+1];
+        int[][] dp = new int[n+1][amount+1];
         for(int i =0;i<=amount;i++){
             dp[0][i] = 100000000;
         }
