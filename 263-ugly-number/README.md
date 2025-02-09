@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/ugly-number">Ugly Number</a></h2> <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' /><hr><p>An <strong>ugly number</strong> is a positive integer whose prime factors are limited to <code>2</code>, <code>3</code>, and <code>5</code>.</p>
+<h2><a href="https://leetcode.com/problems/ugly-number">Ugly Number</a></h2> <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' /><hr><p>An <strong>ugly number</strong> is a <em>positive</em> integer which does not have a prime factor other than 2, 3, and 5.</p>
 
 <p>Given an integer <code>n</code>, return <code>true</code> <em>if</em> <code>n</code> <em>is an <strong>ugly number</strong></em>.</p>
 
@@ -16,7 +16,7 @@
 <pre>
 <strong>Input:</strong> n = 1
 <strong>Output:</strong> true
-<strong>Explanation:</strong> 1 has no prime factors, therefore all of its prime factors are limited to 2, 3, and 5.
+<strong>Explanation:</strong> 1 has no prime factors.
 </pre>
 
 <p><strong class="example">Example 3:</strong></p>
