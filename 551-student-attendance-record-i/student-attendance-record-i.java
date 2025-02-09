@@ -1,23 +1,14 @@
 class Solution {
     public boolean checkRecord(String s) {
+        int acnt = 0;
         int n = s.length();
-        int l = 0;
-        int a = 0;
-        
+        int lstart = 0;
         for(int i =0;i<n;i++){
             char c = s.charAt(i);
-            if(c == 'P'){
-                l = 0;
-            }
-            else if(c == 'A'){
-                l = 0;
-                a++;
-                if(a > 1) return false;
-            }
-            else if(c == 'L'){
-                l++;
-                if(l >= 3) return false;
-            }
+            if(c == 'A') acnt++;
+            if(c == 'L') lstart++;
+            else lstart = 0;
+            if(lstart == 3 || acnt == 2) return false;
         }
         return true;
     }
