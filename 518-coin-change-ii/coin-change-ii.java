@@ -1,24 +1,18 @@
 class Solution {
-    public int change(int target, int[] coins) {
+    public int change(int amount, int[] coins) {
         int n = coins.length;
-        int[][] dp = new int[n][target+1];
-        for(int t =0;t <= target;t++){
-            dp[0][t] = (t%coins[0] == 0) ? 1 : 0;
-            
+        int[][] dp = new int[n][amount + 1];
+        for(int[] r : dp){
+            Arrays.fill(r, -1);
         }
-        for(int i =0;i<n;i++){
-            dp[i][0] = 1;
-        }
-        for(int i =1;i<n;i++){
-            for(int j =0;j<= target;j++){
-                int notTake = dp[i-1][j];
-                int take = 0;
-                if(coins[i] <= j){
-                    take = dp[i][j-coins[i]];
-                }
-                dp[i][j] = take + notTake;
-            }
-        }
-        return dp[n-1][target];
+        return f(n-1, n, coins, amount, dp);
+    }
+
+    public int f(int i, int n, int[] coins, int t, int[][] dp){
+        if(t == 0) return 1;
+        if(t < 0 || i < 0) return 0;
+
+        if(dp[i][t] != -1) return dp[i][t];
+        return dp[i][t] = f(i-1, n, coins, t, dp) + f(i, n, coins, t-coins[i], dp);
     }
 }
