@@ -1,35 +1,17 @@
 class Solution {
     public int eraseOverlapIntervals(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> a[1] - b[1]);
+        int prevEnd = intervals[0][1];
+        int ans = 1;
         int n = intervals.length;
-        Pair[] meet = new Pair[n];
-        for(int i = 0;i<n;i++){
-            Pair p = new Pair(intervals[i][1], intervals[i][0]);
-            meet[i] = p;
-        }
-        
-        Arrays.sort(meet, (a, b) -> a.end - b.end);
-        int prevEnd = -1000000;
-        int ans = 0;
-        for(int i =0;i<n;i++){
-            Pair p = meet[i];
-            int st = p.start;
-            int en = p.end;
-            
-            if(prevEnd <= st){
+        for(int i =1;i<n;i++){
+            int curEnd = intervals[i][1];
+            int curStart = intervals[i][0];
+            if(curStart >= prevEnd){
                 ans++;
-                prevEnd = en;
+                prevEnd = curEnd;
             }
         }
         return n - ans;
-    }
-}
-
-class Pair{
-    int end;
-    int start;
-    
-    public Pair(int end, int start){
-        this.end = end;
-        this.start = start;
     }
 }
