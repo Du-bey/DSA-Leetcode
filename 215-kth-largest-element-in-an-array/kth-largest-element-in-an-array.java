@@ -5,6 +5,6 @@ class Solution {
             pq.add(x);
             if(pq.size() > k) pq.poll();
         }
-        return pq.peek();
+        return pq.poll();
     }
 }
