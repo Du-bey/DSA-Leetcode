@@ -5,6 +5,7 @@ class Solution {
         boolean[] vis = new boolean[n];
         HashMap<Integer, List<Integer>> h = new HashMap<>();
         Queue<Integer> q = new LinkedList<>();
+        HashSet<Integer> visitedStops = new HashSet<>();
 
         for(int i = 0;i<n;i++){
             int[] r = routes[i];
@@ -26,6 +27,7 @@ class Solution {
                 int bus = q.poll();
                 for (int stop : routes[bus]) { 
                     if (stop == t) return jumps;
+                    if (!visitedStops.add(stop)) continue;
                     for(int nextBus : h.get(stop)){
                         if(!vis[nextBus]){
                             q.add(nextBus);
