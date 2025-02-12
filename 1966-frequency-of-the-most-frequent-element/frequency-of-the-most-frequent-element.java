@@ -7,7 +7,7 @@ class Solution {
         long sum = 0;
         for(int r = 0;r<n;r++){
             sum += nums[r];
-            while((long) nums[r] *(r - l + 1) > sum + k){
+            if((long) nums[r] *(r - l + 1) > sum + k){
                 sum -= nums[l++];
             }
             ans = Math.max(ans, r - l + 1);
