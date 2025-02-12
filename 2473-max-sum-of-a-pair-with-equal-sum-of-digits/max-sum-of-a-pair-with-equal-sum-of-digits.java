@@ -1,23 +1,15 @@
 class Solution {
     public int maximumSum(int[] nums) {
-        HashMap<Integer, Pair> h = new HashMap<>();
+        HashMap<Integer, Integer> h = new HashMap<>();
+        int ans = -1;
         for(int x : nums){
             int sum = getSum(x);
-            h.putIfAbsent(sum, new Pair());
-            Pair p = h.get(sum);
-            if(x > p.first){
-                p.second = p.first;
-                p.first = x;
+            if(h.get(sum) != null){
+                ans = Math.max(ans, x + h.get(sum));
+                h.put(sum, Math.max(h.get(sum), x));
             }
-            else if(x > p.second){
-                p.second = x;
-            }
-        }
-
-        int ans = -1;
-        for(Pair p : h.values()){ 
-            if(p.second > 0){
-                ans = Math.max(ans, p.first + p.second);
+            else{
+                h.put(sum, x);
             }
         }
         return ans;
@@ -30,21 +22,5 @@ class Solution {
             n /= 10;
         }
         return ans;
-    }
-}
-
-class Pair {
-    public int first;
-    public int second;
-
-
-    public Pair() {
-        this.first = 0;
-        this.second = 0;
-    }
-
-    public Pair(int first, int second) {
-        this.first = first;
-        this.second = second;
     }
 }
