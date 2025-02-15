@@ -1,21 +1,26 @@
 class Solution {
     public boolean isNStraightHand(int[] hand, int g) {
-        int n = hand.length;
-        Arrays.sort(hand);
-        HashMap<Integer, Integer> h = new HashMap<>();
-        for(int x : hand){
-            h.put(x, h.getOrDefault(x, 0) + 1);
+        if (hand.length % g != 0) return false;
+
+        HashMap<Integer, Integer> count = new HashMap<>();
+        for (int x : hand) {
+            count.put(x, count.getOrDefault(x, 0) + 1);
         }
-        for(int x : hand){
-            if(h.get(x) <= 0) continue;
-            for(int i = 1;i<g;i++){
-                int cnt = h.getOrDefault(x+i, 0);
-                if(cnt > 0){
-                    h.put(x+i, cnt - 1);
-                }
-                else return false;
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>(count.keySet());
+
+        while (!pq.isEmpty()) {
+            int start = pq.poll();
+
+            if (count.get(start) == 0) continue;
+
+            int freq = count.get(start);
+            for (int i = 0; i < g; i++) {
+                int num = start + i;
+                if (count.getOrDefault(num, 0) < freq) return false;
+                count.put(num, count.get(num) - freq);
+                if (count.get(num) == 0) pq.remove(num);
             }
-            h.put(x, h.get(x) - 1);
         }
         return true;
     }
