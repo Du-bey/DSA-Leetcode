@@ -5,18 +5,24 @@ class ProductOfNumbers {
     }
     
     public void add(int num) {
-        l.add(num);
+        if(num == 0) l.clear();
+        else{
+            int x = 0;
+            if(l.isEmpty()){
+                x = num;
+            }
+            else{
+                x = num * l.get(l.size() - 1);
+            }
+            l.add(x);
+        }
     }
     
     public int getProduct(int k) {
-        int ans = 1;
-        int size = l.size();
-        for(int i = size - 1; i>=0 && k > 0;i--){
-            k--;
-            ans *= l.get(i);
-            if(ans == 0) return 0;
-        }
-        return ans;
+        int n = l.size();
+        if(k > n) return 0;
+        if(k == n) return l.get(n-1);
+        return (l.get(n-1) / l.get(n - k - 1));
     }
 }
 
