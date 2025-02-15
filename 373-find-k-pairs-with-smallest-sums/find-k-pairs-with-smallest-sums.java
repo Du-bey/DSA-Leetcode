@@ -4,27 +4,28 @@ class Solution {
         int m = nums2.length;
 
         List<List<Integer>> ans = new ArrayList<>();
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> (b[0] - a[0]));
-        for(int i =0;i<n;i++){
-            for(int j =0;j<m;j++){
-                int a = nums1[i];
-                int b = nums2[j];
-                int sum = a + b;
-                if(pq.size() < k) pq.add(new int[]{sum, a, b});
-                else if(sum < pq.peek()[0]){
-                    pq.poll();
-                    pq.add(new int[]{sum, a, b});
-                }
-                else break;
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));
+        Set<String> vis = new HashSet<>();
+
+        pq.add(new int[]{nums1[0] + nums2[0], 0, 0});
+        vis.add("0,0");
+
+        while (k-- > 0 && !pq.isEmpty()) {
+            int[] arr = pq.poll();
+            int i = arr[1];
+            int j = arr[2];
+
+            ans.add(Arrays.asList(nums1[i], nums2[j]));
+
+            if (j + 1 < m && vis.add(i + "," + (j + 1))) {
+                pq.add(new int[]{nums1[i] + nums2[j + 1], i, j + 1});
+            }
+
+            if (i + 1 < n && vis.add((i + 1) + "," + j)) {
+                pq.add(new int[]{nums1[i + 1] + nums2[j], i + 1, j});
             }
         }
-        while(k -- > 0){
-            List<Integer> l = new ArrayList<>();
-            int[] arr = pq.poll();
-            l.add(arr[1]);
-            l.add(arr[2]);
-            ans.add(l);
-        }
+
         return ans;
     }
 }
