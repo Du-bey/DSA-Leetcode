@@ -5,26 +5,27 @@ class Solution {
         int[] dis2 = new int[n];
         boolean[] vis1 = new boolean[n];
         boolean[] vis2 = new boolean[n];
-        dfs(node1, dis1, vis1, edges, 0);
-        dfs(node2, dis2, vis2, edges, 0);
         
-        int ret = -1;
-        int minDis = Integer.MAX_VALUE;
+        dfs(edges, node1, dis1, vis1, 0);
+        dfs(edges, node2, dis2, vis2, 0);
+
+        int ans = -1;
+        int min = Integer.MAX_VALUE;
         for(int i =0;i<n;i++){
-            if((minDis > Math.max(dis1[i], dis2[i])) && vis1[i] && vis2[i]){
-                minDis = Math.max(dis1[i], dis2[i]);
-                ret = i;
+            if(min > Math.max(dis1[i], dis2[i]) && vis1[i] && vis2[i]){
+                ans = i;
+                min = Math.max(dis1[i], dis2[i]);
             }
         }
-        return ret;
+        return ans;
     }
 
-    public void dfs(int u, int[] ans, boolean[] vis, int[] edges, int dis){
+    public void dfs(int[] edges, int u, int[] dis, boolean[] vis, int d){
         vis[u] = true;
         int v = edges[u];
         if(v != -1 && !vis[v]){
-            ans[v] = dis + 1;
-            dfs(v, ans, vis, edges, dis + 1);
+            dis[v] = d + 1;
+            dfs(edges, v, dis, vis, d + 1);
         }
     }
 }
