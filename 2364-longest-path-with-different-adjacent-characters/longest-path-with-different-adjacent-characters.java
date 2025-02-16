@@ -11,28 +11,26 @@ class Solution {
                 adj.get(parent[i]).add(i);
             }
         }
-        f(0, -1, s, adj);
+        f(0, s, adj);
         return ans;
     }
 
-    public int f(int u, int par, String s, List<List<Integer>> adj){
+    public int f(int u, String s, List<List<Integer>> adj){
         char c = s.charAt(u);
 
         int retVal = 0;
         int l = 0;
         int sl = 0;
         for(int v : adj.get(u)){
-            if(v != par){
-                int child = f(v, u, s, adj);
-                if(c == s.charAt(v)) continue;
-                retVal = Math.max(retVal, child);
-                if(child > l){
-                    sl = l;
-                    l = child;
-                }
-                else if(child > sl){
-                    sl = child;
-                }
+            int child = f(v, s, adj);
+            if(c == s.charAt(v)) continue;
+            retVal = Math.max(retVal, child);
+            if(child > l){
+                sl = l;
+                l = child;
+            }
+            else if(child > sl){
+                sl = child;
             }
         }
         
