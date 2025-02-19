@@ -11,7 +11,10 @@ class Solution {
     public void solve(int i, int n, int k, String ans){
         if(i == n){
             cnt++;
-            if(cnt == k) res = ans;
+            if(cnt == k){
+                res = ans;
+                return;
+            }
             return;
         }
 
