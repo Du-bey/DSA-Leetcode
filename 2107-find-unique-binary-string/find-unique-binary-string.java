@@ -1,21 +1,11 @@
 class Solution {
-    String ans;
     public String findDifferentBinaryString(String[] nums) {
-        Set<String> set = new HashSet<>(Arrays.asList(nums));
-        solve(set, "", nums[0].length());
-        return ans;
-    }
-
-    public void solve(Set<String> set, String s, int n){
-        if(s.length() == n){
-            if(!set.contains(s)){
-                ans = s;
-                return;
-            }
-            return;
+        StringBuilder sb = new StringBuilder();
+        int n = nums.length;
+        for(int i =0;i<n;i++){
+            char c = nums[i].charAt(i) == '0' ? '1' : '0';
+            sb.append(c);
         }
-        if(ans != null) return;
-        solve(set, s + '0', n);
-        solve(set, s + '1', n);
+        return sb.toString();
     }
 }
