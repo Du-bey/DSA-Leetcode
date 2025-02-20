@@ -14,8 +14,8 @@ class Solution {
             }
             return;
         }
+        if(ans != null) return;
         solve(set, s + '0', n);
         solve(set, s + '1', n);
-        if(ans != null) return;
     }
 }
