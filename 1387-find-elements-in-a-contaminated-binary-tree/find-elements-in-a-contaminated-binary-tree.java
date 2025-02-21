@@ -16,10 +16,7 @@
 class FindElements {
     HashSet<Integer> h = new HashSet<>();
     public FindElements(TreeNode root) {
-        root.val = 0;
-        h.add(0);
-        if(root.left != null) f(root.left, 1);
-        if(root.right != null) f(root.right, 2);
+        f(root, 0);
     }
 
     public void f(TreeNode root, int val){
