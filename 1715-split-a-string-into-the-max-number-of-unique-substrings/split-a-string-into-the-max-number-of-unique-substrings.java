@@ -14,6 +14,7 @@ class Solution {
         }
 
         for(int j =i;j<n;j++){
+            if(seen.size() + (n - j) <= ans) return;
             String sub = s.substring(i, j+1);
             if(seen.contains(sub)) continue;
             seen.add(sub);
