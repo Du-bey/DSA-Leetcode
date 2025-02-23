@@ -4,13 +4,13 @@ class Solution {
         int n = nums.length;
         int[] dp = new int[n];
         int[] hash = new int[n];
-        int ind = 0;
         for(int i =0;i<n;i++){
             dp[i] = 1;
             hash[i] = i;
         }
-        int max = 1;
-        for(int i =1;i<n;i++){
+        int ans = 1;
+        int ind = 0;
+        for(int i =0;i<n;i++){
             for(int j =0;j<i;j++){
                 if(nums[i] % nums[j] == 0){
                     if(dp[i] < 1 + dp[j]){
@@ -19,19 +19,18 @@ class Solution {
                     }
                 }
             }
-            if(max < dp[i]){
-                max = dp[i];
+            if(ans < dp[i]){
+                ans = dp[i];
                 ind = i;
             }
         }
-
-        List<Integer> ans = new ArrayList<>();
-        ans.add(nums[ind]);
+        ArrayList<Integer> res = new ArrayList<>();
         while(hash[ind] != ind){
+            res.add(nums[ind]);
             ind = hash[ind];
-            ans.add(nums[ind]);
         }
-        Collections.reverse(ans);
-        return ans;
+        res.add(nums[ind]);
+        Collections.sort(res);
+        return res;
     }
 }
