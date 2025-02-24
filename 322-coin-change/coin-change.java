@@ -1,21 +1,23 @@
 class Solution {
+    int min = 100000000;
     public int coinChange(int[] coins, int amount) {
         int n = coins.length;
         int[][] dp = new int[n+1][amount+1];
-        for(int i =0;i<=amount;i++){
-            dp[0][i] = 100000000;
+        for(int[] row : dp){
+            Arrays.fill(row, -1);
         }
-        dp[0][0] = 0;
-        for(int i =1;i<=n;i++){
-            for(int t = 1;t<=amount;t++){
-                int take = 100000000;
-                if(coins[i-1] <= t) take = 1 + dp[i][t - coins[i-1]];
-                int notTake = dp[i-1][t];
-                
-                dp[i][t] = Math.min(take, notTake);
-            }
-        }
-        int ans = dp[n][amount];
-        return ans == 100000000 ? -1 : ans;
+        int ans = f(n-1, amount, coins, dp);
+        return ans == min ? -1 : ans;
+    }
+
+    public int f(int i, int t, int[] coins, int[][] dp){
+        if(t == 0) return 0;
+        if(i < 0 || t < 0) return min;
+
+        if(dp[i][t] != -1) return dp[i][t];
+        int take = 1 + f(i, t - coins[i], coins, dp);
+        int notTake = f(i-1, t, coins, dp);
+
+        return dp[i][t] = Math.min(take, notTake);
     }
 }
