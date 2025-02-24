@@ -7,17 +7,21 @@ class Solution {
         }
         if(sum % 2 == 1) return false;
         sum /= 2;
-        boolean[] dp = new boolean[sum+1];
-        
-        dp[0] = true;
-        for(int i =1;i<=n;i++){
-            for(int j =sum;j>=1;j--){
-                boolean notTake = dp[j];
-                boolean take = false;
-                if(nums[i-1]<= j) take = dp[j - nums[i-1]];
-                dp[j] = take || notTake;
-            }
-        }
-        return dp[sum];
+        int[][] dp = new int[n][sum+1];
+        for(int[] r : dp) Arrays.fill(r, -1);
+        return f(n-1, sum, dp, nums);
+    }
+
+    public boolean f(int i, int t, int[][] dp, int[] nums){
+        if(t == 0) return true;
+        if(i < 0 || t < 0) return false;
+
+        if(dp[i][t] != -1) return dp[i][t] == 1 ? true : false;
+
+        boolean take = f(i-1, t - nums[i], dp, nums);
+        boolean notTake = f(i-1, t , dp, nums);
+        boolean ans = take || notTake;
+        dp[i][t] = ans ? 1 : 0;
+        return ans;
     }
 }
