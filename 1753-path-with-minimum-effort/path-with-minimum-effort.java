@@ -26,10 +26,10 @@ class Solution {
                 int newr = r + dr[i];
                 int newc = c + dc[i];
                 if(newr >=0 && newc >=0 && newr <n && newc <m){
-                    int newEffort = Math.max(Math.abs(grid[newr][newc] - grid[r][c]), d);
-                    if(newEffort < dis[newr][newc]){
-                        dis[newr][newc] = newEffort;
-                        pq.add(new tuple(dis[newr][newc], newr, newc));
+                    int newEff = Math.max(Math.abs(grid[newr][newc] - grid[r][c]), d);
+                    if(dis[newr][newc] > newEff){
+                        dis[newr][newc] = newEff;
+                        pq.add(new tuple(newEff, newr, newc));
                     }
                 }
             }
