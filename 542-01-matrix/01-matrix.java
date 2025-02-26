@@ -5,7 +5,6 @@ class Solution {
         int n = mat.length;
         int m = mat[0].length;
         Queue<Triplet> q = new LinkedList<>();
-        boolean[][] vis = new boolean[n][m];
 
         int[][] ans = new int[n][m];
 
@@ -13,7 +12,6 @@ class Solution {
             for(int j =0;j<m;j++){
                 if(mat[i][j] == 0){
                     q.add(new Triplet(0, i, j));
-                    vis[i][j] = true;
                 }
             }
         }
@@ -26,9 +24,8 @@ class Solution {
             for(int i =0;i<4;i++){
                 int nr = r + dr[i];
                 int nc = c + dc[i];
-                if(nr >= 0 && nc >= 0 && nr < n && nc < m && mat[nr][nc] == 1 && !vis[nr][nc]){
+                if(nr >= 0 && nc >= 0 && nr < n && nc < m && mat[nr][nc] == 1 && ans[nr][nc] == 0){
                     q.add(new Triplet(dis + 1, nr, nc));
-                    vis[nr][nc] = true;
                     ans[nr][nc] = dis + 1;
                 }
             }
