@@ -26,8 +26,6 @@ class Solution {
             return true;
         }
 
-        if(f(root.left, sum, t) || f(root.right, sum, t)) return true;
-        
-        return false;
+        return f(root.left, sum, t) || f(root.right, sum, t);
     }
 }
