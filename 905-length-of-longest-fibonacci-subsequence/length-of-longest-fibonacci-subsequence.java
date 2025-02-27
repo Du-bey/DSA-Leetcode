@@ -6,9 +6,13 @@ class Solution {
             h.put(arr[i], i);
         }
         int max = 0;
+        int[][] dp = new int[n][n];
+        for(int[] r : dp){
+            Arrays.fill(r, -1);
+        }
         for(int j =1;j<n;j++){
             for(int k = j+1;k<n;k++){
-                int len = solve(j, k, h, arr);
+                int len = solve(j, k, h, arr, dp);
                 if(len >= 3){
                     max = Math.max(max, len);
                 }
@@ -17,12 +21,13 @@ class Solution {
         return max;
     }
 
-    public int solve(int j, int k, HashMap<Integer, Integer> h, int[] arr){
+    public int solve(int j, int k, HashMap<Integer, Integer> h, int[] arr, int[][] dp){
+        if(dp[j][k] != -1) return dp[j][k];
         int num = arr[k] - arr[j];
         if(h.containsKey(num) && h.get(num) < j){
             int i = h.get(num);
-            return 1 + solve(i, j, h, arr);
+            return dp[j][k] = 1 + solve(i, j, h, arr, dp);
         }
-        return 2;
+        return dp[j][k] = 2;
     }
 }
