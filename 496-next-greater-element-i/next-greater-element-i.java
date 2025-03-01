@@ -8,7 +8,7 @@ class Solution {
         HashMap<Integer, Integer> h = new HashMap<>();
         for(int i = m - 1;i>=0;i--){
             int num = nums2[i];
-            while(!st.isEmpty() && num > st.peek()){
+            while(!st.isEmpty() && num >= st.peek()){
                 st.pop();
             }
             int nge = st.isEmpty() ? -1 : st.peek();
