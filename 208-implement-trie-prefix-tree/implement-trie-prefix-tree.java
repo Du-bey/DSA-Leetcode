@@ -1,6 +1,5 @@
 class Trie {
-    private static Node root; 
-
+    private static Node root;
     public Trie() {
         root = new Node();
     }
@@ -10,9 +9,9 @@ class Trie {
         for(int i =0;i<word.length();i++){
             char ch = word.charAt(i);
             if(node.links[ch - 'a'] == null){
-                node.links[ch - 'a'] = new Node();
+                node.links[ch-'a'] = new Node();
             }
-            node = node.links[ch - 'a'];
+            node = node.links[ch-'a'];
         }
         node.flag = true;
     }
@@ -24,7 +23,7 @@ class Trie {
             if(node.links[ch - 'a'] == null){
                 return false;
             }
-            node = node.links[ch - 'a'];
+            node = node.links[ch-'a'];
         }
         return node.flag;
     }
@@ -36,15 +35,15 @@ class Trie {
             if(node.links[ch - 'a'] == null){
                 return false;
             }
-            node = node.links[ch - 'a'];
+            node = node.links[ch-'a'];
         }
         return true;
     }
-}
 
-class Node {
-    Node[] links = new Node[26];
-    boolean flag = false;
+    class Node{
+        Node[] links = new Node[26];
+        boolean flag = false;
+    }
 }
 
 /**
