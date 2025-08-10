@@ -1,38 +1,47 @@
 class Solution {
-    public int minDays(int[] bloomDay, int m, int k) {
+    public int minDays(int[] bloomDay, int b, int k) {
+        
         int n = bloomDay.length;
-        if(n < m * k) return -1;
-        int max = -1;
-        int min = Integer.MAX_VALUE;
-        for(int i =0;i<n;i++){
-            max = Math.max(bloomDay[i], max);
-            min = Math.min(bloomDay[i], min);
-        }
+        if(n < b*k) return -1;
 
-        int l = min, h = max, ans = -1;
+        int l = Integer.MAX_VALUE;
+        int h = 0;
+        for(int x : bloomDay){
+            h = Math.max(h, x);
+            l = Math.min(l, x);
+        }
+        int ans = -1;
 
         while(l <= h){
-            int mid = (l+h)/2;
-            if(isPossible(mid, bloomDay, m , k)){
-                h = mid - 1;
-                ans = mid;
+            int m = l + (h-l)/2;
+            if(isPossible(m, bloomDay, b, k)){
+                h = m - 1;
+                ans = m;
             }
-            else l = mid + 1;
+            else{
+                l = m + 1;
+            }
         }
         return ans;
     }
 
-    public boolean isPossible(int mid, int[] bloomDay, int m, int k){
-        int b = 0;
-        int fl = 0;
+    public boolean isPossible(int m, int[] bloomDay, int b, int k){
+        int cnt = 0;
+        int bouquet = 0;
+        
         for(int x : bloomDay){
-            if(mid >= x) fl++;
-            else{
-                b += fl/k;
-                fl = 0;
+            if(m >= x){
+                cnt++;
             }
+            else{
+                cnt = 0;
+            }
+            if(cnt == k){
+                bouquet++;
+                cnt = 0;
+            }
+            if(bouquet >= b) return true;
         }
-        b += fl/k;
-        return (b >= m);
+        return false;
     }
 }
