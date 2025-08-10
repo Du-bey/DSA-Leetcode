@@ -1,25 +1,37 @@
 class Solution {
     public int smallestDistancePair(int[] nums, int k) {
         int n = nums.length;
-        int max = 0;
-        int min = 100000000;
-        for(int x : nums){
-            max = Math.max(max, x);
-            min = Math.min(min, x);
-        }
+        Arrays.sort(nums);
+        int l = 0;
+        int h = nums[n-1] - nums[0];
 
-        int[] cnt = new int[max-min+1];
-        for(int i =0;i<n;i++){
-            for(int j = i+1;j<n;j++){
-                int dif = Math.abs(nums[i] - nums[j]);
-                cnt[dif]++;
+        int ans = 0;
+        while(l <= h){
+            int m = l + (h-l)/2;
+            int cnt = count(m, nums);
+            if(cnt < k){
+                l = m + 1;
+            }
+            else{
+                ans = m;
+                h = m - 1;
             }
         }
+        return ans;
+    }
 
-        for(int i = 0;i<cnt.length;i++){
-            k -= cnt[i];
-            if(k <= 0) return i;
+    public int count(int m, int[] nums){
+        int n = nums.length;
+        int i = 0;
+        int j = 1;
+        int cnt = 0;
+        while(j < n){
+            while(nums[j] - nums[i] > m){
+                i++;
+            }
+            cnt += j - i;
+            j++;
         }
-        return -1;
+        return cnt;
     }
 }
