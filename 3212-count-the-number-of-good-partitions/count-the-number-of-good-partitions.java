@@ -10,7 +10,7 @@ class Solution {
         int ans = 1;
 
         int i = 0;
-        int j = Math.max(0, h.get(nums[0]));
+        int j = h.get(nums[0]);
         while(i < n){
             if(i > j) ans *= 2;
             ans %= mod;
