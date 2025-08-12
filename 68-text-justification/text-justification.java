@@ -1,65 +1,56 @@
 class Solution {
-    int MAX_WIDTH;
-    
-    public List<String> fullJustify(String[] words, int maxWidth) {
-        
-        List<String> result = new ArrayList<>();
-        int n     = words.length;
-        MAX_WIDTH = maxWidth;
-        int i     = 0;
-        
-        while(i < n) {
-            int lettersCount = words[i].length();
-            int j            = i+1;
-            int spaceSlots   = 0;
+    int w;
+    public List<String> fullJustify(String[] words, int width) {
+        List<String> ans = new ArrayList<>();
+        int n = words.length;
+        w = width;
+
+        int i =0;
+        while(i < n){
+            int ltrcnt = words[i].length();
+            int j = i+1;
+            int slots = 0;
             
-            while(j < n && spaceSlots + lettersCount + words[j].length() + 1 <= maxWidth) {
-                lettersCount += words[j].length();
-                spaceSlots   += 1;
+            while(j < n && ltrcnt + words[j].length() + 1 + slots <= w){
+                ltrcnt += words[j].length();
+                slots++;
                 j++;
             }
-            
-            int remainingSlots = maxWidth - lettersCount;
-            
-            
-            int eachWordSpace = spaceSlots == 0 ? 0 : remainingSlots / spaceSlots;
-            int extraSpace    = spaceSlots == 0 ? 0 : remainingSlots % spaceSlots;
-            
-            if(j == n) { //Means we are on last line - Left justfied
-                eachWordSpace = 1;
-                extraSpace    = 0;
+
+            int remslot = w - ltrcnt;
+            int spaceInSlot = (slots == 0) ? 0 : remslot / slots;
+            int extraSpaces = (slots == 0) ? 0 : remslot % slots;
+
+            if(j == n){
+                spaceInSlot = 1;
+                extraSpaces = 0;
             }
-            
-            
-            result.add(getFinalWord(i, j, eachWordSpace, extraSpace, words));
+            ans.add(line(i, j, spaceInSlot, extraSpaces, words));
             i = j;
         }
-        
-        return result;
+        return ans;
     }
-    
-    private String getFinalWord(int i, int j, int eachWordSpace, int extraSpace, String[] words) {
-        StringBuilder s = new StringBuilder();
 
-        for(int k = i; k < j; k++) {
-            s.append(words[k]);
+    public String line(int i, int j, int spaceInSlot, int extraSpaces, String[] words){
 
-            if(k == j-1)
-                continue;
+        StringBuilder sb = new StringBuilder();
+        for(int k =i;k<j;k++){
+            sb.append(words[k]);
 
-            for(int space = 1; space <= eachWordSpace; space++)
-                s.append(" ");
+            if(k == j-1) continue;
 
-            if(extraSpace > 0) {
-                s.append(" ");
-                extraSpace--;
+            for(int l = 0; l < spaceInSlot; l++){
+                sb.append(" ");
             }
-        }
+            if(extraSpaces > 0){
+                sb.append(" ");
+                extraSpaces--;
+            }
 
-        while(s.length() < MAX_WIDTH) {
-            s.append(" ");
         }
-        
-        return s.toString();
+        while(sb.length() < w){
+            sb.append(" ");
+        }
+        return sb.toString();
     }
 }
