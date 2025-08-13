@@ -3,17 +3,21 @@ class Solution {
         int n = nums.length;
         int i = 0;
         int ans = 0;
+        int culprit = 0;
 
         HashMap<Integer, Integer> h = new HashMap<>();
+
         for(int j =0;j<n;j++){
             int x = nums[j];
             h.put(x, h.getOrDefault(x, 0) + 1);
-            while(h.get(x) > k){
+            if(h.get(x) == k + 1) culprit++;
+            
+            if(culprit > 0){
                 h.put(nums[i], h.get(nums[i]) - 1);
+                if(h.get(nums[i]) == k) culprit--;
                 i++;
             }
-
-            ans = Math.max(ans, j - i + 1);
+            if(culprit == 0) ans = Math.max(ans, j - i + 1);
         }
         return ans;
     }
