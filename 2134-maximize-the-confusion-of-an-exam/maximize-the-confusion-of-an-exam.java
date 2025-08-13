@@ -1,34 +1,25 @@
 class Solution {
-    public int maxConsecutiveAnswers(String answerKey, int k) {
-        int len = answerKey.length();
-        int start = 0;
+    public int maxConsecutiveAnswers(String ans, int k) {
+        int n = ans.length();
+        int res = 0;
         int freqt = 0;
         int freqf = 0;
-        int maxWindowSize = 0;
-        for(int end = 0;end < len;end++){
-            char ch = answerKey.charAt(end);
-            if(ch == 'T'){
-                freqt++;
-            }
-            else{
-                freqf++;
-            }
+        int i = 0;
+
+        for(int j =0;j<n;j++){
+            char ch = ans.charAt(j);
+            if(ch == 'T') freqt++;
+            if(ch == 'F') freqf++;
+            
             
             while(Math.min(freqt, freqf) > k){
-                char cstart = answerKey.charAt(start);
-                if(cstart == 'T'){
-                    freqt--;
-                }
-                else{
-                    freqf--;
-                }
-                start++;
+                char c = ans.charAt(i++);
+                if(c == 'T') freqt--;
+                if(c == 'F') freqf--;
             }
-            int lowerFreq = Math.min(freqt, freqf);
-            if(lowerFreq <= k){
-                maxWindowSize = Math.max(maxWindowSize, end - start + 1);
-            }
+
+            res = Math.max(res, j - i + 1);
         }
-        return maxWindowSize;
+        return res;
     }
 }
