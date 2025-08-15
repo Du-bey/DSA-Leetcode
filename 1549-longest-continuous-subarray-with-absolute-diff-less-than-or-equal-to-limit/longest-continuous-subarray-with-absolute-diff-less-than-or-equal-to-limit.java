@@ -2,16 +2,22 @@ class Solution {
     public int longestSubarray(int[] nums, int limit) {
         int n = nums.length;
 
-        TreeMap<Integer, Integer> h = new TreeMap<>();
+        Deque<Integer> max = new LinkedList<>();
+        Deque<Integer> min = new LinkedList<>();
         int ans = 0;
         int i =0;
         for(int j =0;j<n;j++){
             int x = nums[j];
-            h.put(x, h.getOrDefault(x, 0) + 1);
+            
+            while(!min.isEmpty() && min.peekLast() > x) min.pollLast();
+            min.addLast(x);
+            while(!max.isEmpty() && max.peekLast() < x) max.pollLast();
+            max.addLast(x);
 
-            while(Math.abs(h.firstKey() - h.lastKey()) > limit){
-                h.put(nums[i], h.get(nums[i]) - 1);
-                if(h.get(nums[i]) == 0) h.remove(nums[i]);
+            while(max.peekFirst() - min.peekFirst() > limit){
+                
+                if(max.peekFirst() == nums[i]) max.pollFirst();
+                if(min.peekFirst() == nums[i]) min.pollFirst();
                 i++;
             }
             ans = Math.max(ans, j - i + 1);
