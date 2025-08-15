@@ -1,24 +1,27 @@
 class Solution {
     public int subarraysWithKDistinct(int[] nums, int k) {
-        return fun(nums, k) - fun(nums, k-1);
-    }
-
-    public int fun(int[] nums, int k) {
+        
         int n = nums.length;
-        int l =0;
-        int cnt = 0;
+        int i = 0;
+        int ans = 0;
+        int x = 0;
         HashMap<Integer, Integer> h = new HashMap<>();
-        for(int r =0;r<n;r++){
-            h.put(nums[r], h.getOrDefault(nums[r], 0) +1);
+        for(int j =0;j<n;j++){
+            h.put(nums[j], h.getOrDefault(nums[j], 0) + 1);
+
             while(h.size() > k){
-                h.put(nums[l], h.get(nums[l]) - 1);
-                if(h.get(nums[l]) == 0){
-                    h.remove(nums[l]);
-                }
-                l++;
+                h.put(nums[i], h.get(nums[i]) - 1);
+                if(h.get(nums[i]) == 0) h.remove(nums[i]);
+                i++;
+                x = i;
             }
-            cnt += r-l+1;
+
+            while(h.get(nums[i]) > 1){
+                h.put(nums[i], h.get(nums[i]) - 1);
+                i++;
+            }
+            if(h.size() == k) ans += i - x + 1;
         }
-        return cnt;
+        return ans;
     }
 }
