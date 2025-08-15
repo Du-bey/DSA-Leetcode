@@ -1,27 +1,22 @@
 class Solution {
-
     public long maximumSubarraySum(int[] nums, int k) {
         long ans = 0;
-        long currentSum = 0;
-        int begin = 0;
-        int end = 0;
+        int n = nums.length;
+        int i = 0;
+        HashSet<Integer> h = new HashSet<>();
+        long sum = 0;
 
-        HashMap<Integer, Integer> numToIndex = new HashMap<>();
-
-        while (end < nums.length) {
-            int currNum = nums[end];
-            int lastOccurrence = numToIndex.getOrDefault(currNum, -1);
-            
-            while (begin <= lastOccurrence || end - begin + 1 > k) {
-                currentSum -= nums[begin];
-                begin++;
+        for(int j =0;j<n;j++){
+            int x = nums[j];
+            sum += x;
+            while(h.contains(x) || h.size() > k - 1){
+                int y = nums[i];
+                sum -= y;
+                h.remove(y);
+                i++;
             }
-            numToIndex.put(currNum, end);
-            currentSum += nums[end];
-            if (end - begin + 1 == k) {
-                ans = Math.max(ans, currentSum);
-            }
-            end++;
+            h.add(x);
+            if(h.size() == k) ans = Math.max(ans, sum);
         }
         return ans;
     }
