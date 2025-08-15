@@ -1,16 +1,16 @@
 class Solution {
     public int numberOfSubstrings(String s) {
+        int[] freq = new int[3];
         int n = s.length();
         int ans = 0;
-        int[] lastseen = new int[3];
-        Arrays.fill(lastseen, -1);
-        
-        for(int i=0;i<n;i++){
-            char c = s.charAt(i);
-            lastseen[c - 'a'] = i;
-            int min = Math.min(lastseen[0], Math.min(lastseen[1], lastseen[2]));
-            if(min != -1){
-                ans += min + 1;
+        int i = 0;
+
+        for(int j =0;j<n;j++){
+            freq[s.charAt(j) - 'a']++;
+            while(freq[0] > 0 && freq[1] > 0 && freq[2] > 0){
+                ans += n - j;
+                freq[s.charAt(i) - 'a']--;
+                i++;
             }
         }
         return ans;
