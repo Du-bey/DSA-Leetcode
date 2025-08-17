@@ -12,7 +12,6 @@ class Solution {
             if(nums[j] - nums[i] == 1){
                 ans = Math.max(ans, j - i + 1);
             }
-            System.out.println(i + " " + j);
         }
         return ans;
     }
