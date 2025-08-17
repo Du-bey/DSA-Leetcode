@@ -10,16 +10,14 @@ class Solution {
         for(int j =0;j<n;j++){
             int x = nums[j];
             pair += h.getOrDefault(x, 0);
-            System.out.println(pair);
             
             h.put(x, h.getOrDefault(x, 0) + 1);
             while(pair >= k){
-                int y = nums[i];
+                int y = nums[i++];
                 ans += n - j;
-                int freq = h.get(y);
-                h.put(y, freq - 1);
-                pair -= h.get(y);
-                i++;
+                int freq = h.get(y) - 1;
+                h.put(y, freq);
+                pair -= freq;
             }
         }
         return ans;
