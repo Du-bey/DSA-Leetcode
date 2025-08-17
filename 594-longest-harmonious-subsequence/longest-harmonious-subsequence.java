@@ -1,18 +1,19 @@
 class Solution {
     public int findLHS(int[] nums) {
         int n = nums.length;
-        int i = 0;
+        HashMap<Integer, Integer> h = new HashMap<>();
         int ans = 0;
-        Arrays.sort(nums);
+        
+        for(int x : nums){
+            h.put(x, h.getOrDefault(x, 0) + 1);
+        }
 
-        for(int j = 0;j<n;j++){
-            while(nums[j] - nums[i] > 1){
-                i++;
-            }
-            if(nums[j] - nums[i] == 1){
-                ans = Math.max(ans, j - i + 1);
+        for(int x : h.keySet()){
+            if(h.containsKey(x + 1)){
+                ans = Math.max(ans, h.getOrDefault(x, 0) + h.get(x+1));
             }
         }
+
         return ans;
     }
 }
