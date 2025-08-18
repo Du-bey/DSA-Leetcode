@@ -1,43 +1,45 @@
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
+
 class Solution {
     public int pairSum(ListNode head) {
-        int ans = 0;
-        ListNode fast = head.next.next;
-        ListNode slow = head;
+        ListNode slow= head;
+        ListNode fast= head;
+        ListNode pre=null;
 
-        while(fast != null && fast.next != null){
-            fast = fast.next.next;
-            slow = slow.next;
+        while(fast!=null && fast.next!=null){
+            pre=slow;
+            slow= slow.next;
+            fast=fast.next.next;
         }
+        pre.next=null;
+
+        ListNode first= head;
         
-        slow.next = reverseList(slow.next);
-        slow = slow.next;
-        fast = head;
-        while(fast != null && slow != null){
-            ans = Math.max(ans, slow.val + fast.val);
-            fast = fast.next;
-            slow = slow.next;
+        ListNode second= reverse(slow);
+
+        ListNode temp=head;
+        int maxSum=0;
+
+        while(temp!=null){
+            temp=temp.next;
+           
+           maxSum= Math.max(maxSum, first.val +second.val);
+           first=first.next;
+           second=second.next;
         }
-        return ans;
+        return maxSum;
     }
 
-    public ListNode reverseList(ListNode head) {
-        ListNode prev = null;
-        while(head != null){
-            ListNode next = head.next;
-            head.next = prev;
-            prev = head;
-            head = next;
+    private ListNode reverse(ListNode head){
+        ListNode pre=null;
+        ListNode curr=head;
+
+        while(curr!=null){
+            ListNode nextNode=curr.next;
+            curr.next=pre;
+            pre=curr;
+            curr=nextNode;
         }
-        return prev;
+
+        return pre;
     }
 }
