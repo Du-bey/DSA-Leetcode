@@ -18,24 +18,19 @@ class Solution {
         HashMap<Node, Node> h = new HashMap<>();
         Node temp = head;
         while(temp != null){
-            Node dummyHead = new Node(temp.val);
-            h.put(temp, dummyHead);
+            Node copy = new Node(temp.val);
+            h.put(temp, copy);
             temp = temp.next;
         }
-        temp = head;
-        while(temp != null){
-            Node dt = h.get(temp);
-            Node n = temp.next;
-            Node r = temp.random;
-            Node dn = h.get(n);
-            Node dr = h.get(r);
-            dt.next = dn;
-            dt.random = dr;
-            h.put(temp, dt);
-            temp = temp.next;
+
+        Node copyHead = h.get(head);
+        Node temp2 = copyHead;
+        while(head != null){
+            temp2.next = h.get(head.next);
+            temp2.random = h.get(head.random);
+            temp2 = temp2.next;
+            head = head.next;
         }
-        return h.get(head);
+        return copyHead;
     }
 }
-
-
