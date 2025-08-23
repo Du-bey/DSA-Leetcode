@@ -10,33 +10,20 @@
  */
 class Solution {
     public ListNode doubleIt(ListNode head) {
-        ListNode nhead = reverse(head);
-        int car = 0;
-        ListNode temp = nhead;
-        while(nhead != null){
-            int val = nhead.val * 2 + car;
-            car = val / 10;
-            nhead.val = val % 10;
-            
-            if(nhead.next == null && car > 0){
-                ListNode newNode = new ListNode(1);
-                nhead.next = newNode;
-                break;
-            }
-            nhead = nhead.next;
+        int lc = f(head);
+        if(lc > 0){
+            ListNode temp = new ListNode(1);
+            temp.next = head;
+            head = temp;
         }
-        
-        return reverse(temp);
+        return head;
     }
 
-    public ListNode reverse(ListNode head) {
-        ListNode prev = null;
-        while(head != null){
-            ListNode next = head.next;
-            head.next = prev;
-            prev = head;
-            head = next;
-        }
-        return prev;
+    public int f(ListNode head){
+        if(head == null) return 0;
+        int car = f(head.next);
+        int val = (head.val * 2) + car;
+        head.val = val % 10;
+        return val / 10;
     }
 }
