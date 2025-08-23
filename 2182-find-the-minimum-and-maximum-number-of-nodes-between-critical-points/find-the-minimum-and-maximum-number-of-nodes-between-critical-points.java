@@ -17,18 +17,14 @@ class Solution {
             
             if((p > c && n > c) || (p < c && n < c)){
                 find++;
-                
                 if(f == -1){
                     f = cnt;
-                    last = f;
-                    l = f;
                 }
                 else{
-                    last = l;
                     l = cnt;
-                    
-                    min = Math.min(Math.abs(last - l), min);
+                    min = Math.min(cnt - last, min);
                 }
+                last = cnt;
             }
             prev = head;
             head = head.next;
