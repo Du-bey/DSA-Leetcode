@@ -1,13 +1,13 @@
 class Solution {
     public int partitionString(String s) {
         int ans = 1;
-        int[] freq = new int[26];
+        Set<Character> set = new HashSet<>();
         for(char c : s.toCharArray()){
-            if(freq[c - 'a'] == 1){
+            if(set.contains(c)){
                 ans++;
-                Arrays.fill(freq, 0);
+                set.clear();
             }
-            freq[c - 'a'] = 1;
+            set.add(c);
         }
         return ans;
     }
