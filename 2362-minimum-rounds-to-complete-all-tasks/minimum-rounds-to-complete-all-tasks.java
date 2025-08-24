@@ -1,19 +1,19 @@
 class Solution {
     public int minimumRounds(int[] tasks) {
-        Arrays.sort(tasks);
+        HashMap<Integer, Integer> h = new HashMap<>();
         int ans = 0;
-        int cnt = 1;
         int n = tasks.length;
 
-        for(int i = 1;i<n;i++){
-            if(tasks[i] == tasks[i-1]) cnt++;
-            else{
-                ans += ((cnt + 2) / 3);
-                if(cnt == 1) return -1;
-                cnt = 1;
-            }
+        for(int x : tasks){
+            h.put(x, h.getOrDefault(x, 0) + 1);
         }
-        ans += ((cnt + 2) / 3);
-        return (cnt == 1) ? -1 : ans;
+
+        for(int x : h.keySet()){
+            int cnt = h.get(x);
+            if(cnt == 1) return -1;
+
+            ans += (cnt + 2) / 3;
+        }
+        return ans;
     }
 }
