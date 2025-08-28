@@ -1,7 +1,6 @@
 class Solution {
     public int minRefuelStops(int target, int startFuel, int[][] stations) {
-        if(target == startFuel) return 0;
-        //if(stations[0][0] > startFuel) return -1;
+        if(startFuel >= target) return 0;
 
         PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
         int n = stations.length;
