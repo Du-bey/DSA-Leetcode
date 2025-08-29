@@ -5,17 +5,22 @@ class Solution {
             h.put(x, h.getOrDefault(x, 0) + 1);
         }
 
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        int n = arr.length;
+        int[] freq = new int[n+1];
+
         for(int x : h.keySet()){
-            pq.add(h.get(x));
+            freq[h.get(x)]++;
         }
 
-        while(k > 0){
-            int freq = pq.poll();
-            k -= freq;
-        }
+        int cnt = h.size();
 
-        int ans = pq.size();
-        return k == 0 ? ans : ans + 1;
+        for(int i = 1;i<=n && k > 0;i++){
+            if(freq[i] == 0) continue;
+            if(i > k) break;
+
+            cnt -= Math.min(freq[i], k/i);
+            k -= freq[i] * i;
+        }
+        return cnt;
     }
 }
