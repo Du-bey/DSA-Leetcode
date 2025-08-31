@@ -22,7 +22,6 @@ class Solution {
         while(i >= 0){
             hcut++;
             ans += h[i--] * (vcut + 1);
-            System.out.println(ans);
         }
 
         while(j >= 0){
@@ -31,6 +30,5 @@ class Solution {
         }
 
         return ans;
-        
     }
 }
