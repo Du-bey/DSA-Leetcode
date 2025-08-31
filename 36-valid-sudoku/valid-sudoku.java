@@ -1,28 +1,23 @@
 class Solution {
     public boolean isValidSudoku(char[][] board) {
-        Map<Integer, Set<Character>> cols = new HashMap<>(9);
-        Map<Integer, Set<Character>> rows = new HashMap<>(9);
-        Map<Integer, Set<Character>> squares = new HashMap<>(9);
+        boolean[][] rows = new boolean[9][9];
+        boolean[][] cols = new boolean[9][9];
+        boolean[][] boxes = new boolean[9][9];
 
-        for (int r = 0; r < 9; r++) {
-            for (int c = 0; c < 9; c++) {
-                if (board[r][c] == '.') continue;
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] != '.') {
+                    int num = board[i][j] - '1';
+                    int boxIndex = (i / 3) * 3 + (j / 3);
 
-                int squareKey = (r / 3) * 3 + (c / 3);
-                
-                rows.putIfAbsent(r, new HashSet<>(9));
-                cols.putIfAbsent(c, new HashSet<>(9));
-                squares.putIfAbsent(squareKey, new HashSet<>(9));
+                    if (rows[i][num] || cols[j][num] || boxes[boxIndex][num]) {
+                        return false;
+                    }
 
-                if (!rows.get(r).add(board[r][c]) ||
-                    !cols.get(c).add(board[r][c]) ||
-                    !squares.get(squareKey).add(board[r][c])) {
-                    return false;
+                    rows[i][num] = cols[j][num] = boxes[boxIndex][num] = true;
                 }
             }
         }
         return true;
-
-
     }
 }
