@@ -1,17 +1,18 @@
 class Solution {
-    public int minimumTotal(List<List<Integer>> triangle) {
-        int n = triangle.size();
+    public int minimumTotal(List<List<Integer>> t) {
+        int n = t.size();
         int[][] dp = new int[n][n];
-        
-        for(int[] r : dp){
-            Arrays.fill(r, -1);
+        for(int i = 0;i<n;i++){
+            dp[n-1][i] = t.get(n-1).get(i);
         }
-        return f(0, 0, n, triangle, dp);
-    }
 
-    public int f(int i, int j, int n, List<List<Integer>> tri, int[][] dp){
-        if(i > n-1) return 0;
-        if(dp[i][j] != -1) return dp[i][j];
-        return dp[i][j] = tri.get(i).get(j) + Math.min(f(i+1, j, n, tri, dp), f(i+1, j+1, n, tri, dp));
+        for(int i = n-2;i>=0;i--){
+            for(int j = i; j>=0;j--){
+                int d = dp[i+1][j];
+                int dr = dp[i+1][j+1];
+                dp[i][j] = t.get(i).get(j) + Math.min(d, dr);
+            }
+        }
+        return dp[0][0];
     }
 }
