@@ -1,27 +1,36 @@
 class Solution {
+    int[][] dp;
     public int minDistance(String s, String t) {
         int n = s.length();
         int m = t.length();
-        int[][] dp = new int[n][m];
-        for(int [] row : dp){
-            Arrays.fill(row, -1);
+
+        dp = new int[n+1][m+1];
+        for(int[] r : dp){
+            Arrays.fill(r, -1);
         }
-        return f(n-1, m-1, s, t, dp);
+
+        return f(n, m, s, t);
     }
 
-    public int f(int i, int j, String s, String t, int[][] dp){
-        if(j < 0) return i+1;
-        if(i < 0) return j+1;
+    public int f(int i, int j, String s, String t){
+        if(j == 0) return i;
+        if(i == 0) return j;
+
         if(dp[i][j] != -1) return dp[i][j];
-        if(s.charAt(i) == t.charAt(j)){
-            dp[i][j] = f(i-1, j-1, s, t, dp);
+
+        int ans = Integer.MAX_VALUE;
+        if(s.charAt(i-1) == t.charAt(j-1)){
+            ans = f(i-1, j-1, s, t);
         }
         else{
-            int in = f(i-1, j, s, t, dp);
-            int del = f(i, j-1, s, t, dp);
-            int rep = f(i-1, j-1, s, t, dp);
-            dp[i][j] = 1 + Math.min(in, Math.min(del, rep));
+            int del = 1 + f(i-1, j, s, t);
+            int ins = 1 + f(i, j-1, s, t);
+            int rep = 1 + f(i-1, j-1, s, t);
+            
+            int st = Math.min(del, ins);
+            st = Math.min(st, rep);
+            ans = Math.min(ans, st);
         }
-        return dp[i][j];
+        return dp[i][j] = ans;
     }
 }
