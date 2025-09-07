@@ -1,42 +1,42 @@
 class Solution {
     public int longestStrChain(String[] words) {
-        Arrays.sort(words, Comparator.comparingInt(String::length));
-        int max = 1;
+        Arrays.sort(words, (a, b) -> a.length() - b.length());
         int n = words.length;
         int[] dp = new int[n];
+        Arrays.fill(dp, 1);
+        int ans = 0;
+
         for(int i =0;i<n;i++){
-            dp[i] = 1;
-        }
-        for(int i =0;i<n;i++){
-            for(int prev = 0;prev < i;prev++){
-                if(checkString(words[i], words[prev])){
-                    dp[i] = Math.max(dp[i], 1 + dp[prev]);
-                    max = Math.max(max, dp[i]);
+            for(int j = 0;j<i;j++){
+                if(possible(words[i], words[j])){
+                    dp[i] = Math.max(dp[i], 1 + dp[j]);
                 }
             }
+            ans = Math.max(ans, dp[i]);
         }
-        return max;
+        return ans;
     }
 
-    public boolean checkString(String s, String p){
-        char[] cur = s.toCharArray();
-        char[] prev = p.toCharArray();
-        int a = cur.length;
-        int b = prev.length;
-        int cnt = 0;
-        
-        if(a - 1 != b) return false;
-        int i =0;
-        int j =0;
-        while(i < a){
-            if(j < b && cur[i] == prev[j]){
+    public boolean possible(String s, String t){
+        int n = s.length();
+        int m = t.length();
+
+        if(n != m + 1) return false;
+        boolean dif = false;
+        int i = 0, j = 0;
+        while(j < m){
+            if(s.charAt(i) == t.charAt(j)){
                 i++;
                 j++;
             }
+            else if(dif){
+                return false;
+            }
             else{
+                dif = true;
                 i++;
             }
         }
-        return j == b && i == a;
+        return true;
     }
 }
