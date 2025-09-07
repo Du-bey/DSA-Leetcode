@@ -25,11 +25,10 @@ class Solution {
             }
         }
         ArrayList<Integer> res = new ArrayList<>();
-        while(hash[ind] != ind){
+        while(ans-- > 0){
             res.add(nums[ind]);
             ind = hash[ind];
         }
-        res.add(nums[ind]);
         Collections.sort(res);
         return res;
     }
