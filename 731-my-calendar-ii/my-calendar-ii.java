@@ -19,7 +19,11 @@ class MyCalendarTwo {
             max = Math.max(max, overlap);
             if(max > 2){
                 event.put(startTime, event.getOrDefault(startTime, 0) - 1);
+                if(event.get(startTime) == 0) event.remove(startTime);
+
                 event.put(endTime, event.getOrDefault(endTime, 0) + 1);
+                if(event.get(endTime) == 0) event.remove(endTime);
+                
                 return false;
             }
         }
