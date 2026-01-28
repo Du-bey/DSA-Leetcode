@@ -1,5 +1,4 @@
 class Solution {
-    int ans = 0;
     int[][] dp;
     public int maxSumDivThree(int[] nums) {
         int sum = 0;
@@ -10,22 +9,21 @@ class Solution {
 
         dp = new int[3][n];
         for(int[] r : dp) Arrays.fill(r, -1);
-        f(0, 0, nums);
-        return ans;
+
+        return f(0, 0, nums);
     }
 
-    public void f(int t, int i, int[] nums){
-        if(t % 3 == 0){
-            ans = Math.max(ans, t);
+    public int f(int t, int i, int[] nums){
+        if(i == nums.length){
+            if(t == 0) return 0;
+            return Integer.MIN_VALUE;
         }
 
-        if(i == nums.length) return;
+        if(dp[t][i] != -1) return dp[t][i];
+        
+        int take = nums[i] + f((t+ nums[i]) % 3, i + 1, nums);
+        int notTake = f(t, i+1, nums);
 
-        int mod = t % 3;
-        if(dp[mod][i] >= t) return;
-        dp[mod][i] = t;
-
-        f(t+ nums[i], i + 1, nums);
-        f(t, i+1, nums);
+        return dp[t][i] = Math.max(take, notTake);
     }
 }
