@@ -1,30 +1,29 @@
 class MyCalendarTwo {
 
-    List<int[]> events;
-    List<int[]> overlap;
+    TreeMap<Integer, Integer> event;
     public MyCalendarTwo() {
-        events = new ArrayList<>();
+        event = new TreeMap<>();
     }
     
-    public boolean book(int start, int end) {
-        overlap = new ArrayList<>();
-        for(int[] e : events){
-            if(Math.max(start, e[0]) < Math.min(end, e[1])){
-                if(!doubleBooking(Math.max(start, e[0]), Math.min(end, e[1])))
-                    return false;
-            }
-        }
-        events.add(new int[]{start, end});
-        return true;
-    }
+    public boolean book(int startTime, int endTime) {
+        event.put(startTime, event.getOrDefault(startTime, 0) + 1);
+        event.put(endTime, event.getOrDefault(endTime, 0) - 1);
 
-    private boolean doubleBooking(int start, int end){
-        for(int[] e : overlap){
-            if(Math.max(start, e[0]) < Math.min(end, e[1])){
+        int max = 0;
+        int overlap = 0;
+
+        for(int ev : event.keySet()){
+            int del = event.get(ev);
+
+            overlap += del;
+            max = Math.max(max, overlap);
+            if(max > 2){
+                event.put(startTime, event.getOrDefault(startTime, 0) - 1);
+                event.put(endTime, event.getOrDefault(endTime, 0) + 1);
                 return false;
             }
         }
-        overlap.add(new int[]{start, end});
+
         return true;
     }
 }
@@ -32,5 +31,5 @@ class MyCalendarTwo {
 /**
  * Your MyCalendarTwo object will be instantiated and called as such:
  * MyCalendarTwo obj = new MyCalendarTwo();
- * boolean param_1 = obj.book(start,end);
+ * boolean param_1 = obj.book(startTime,endTime);
  */
