@@ -12,9 +12,7 @@ class MyCalendarTwo {
         int max = 0;
         int overlap = 0;
 
-        for(int ev : event.keySet()){
-            int del = event.get(ev);
-
+        for(int del : event.values()){
             overlap += del;
             max = Math.max(max, overlap);
             if(max > 2){
@@ -23,7 +21,7 @@ class MyCalendarTwo {
 
                 event.put(endTime, event.getOrDefault(endTime, 0) + 1);
                 if(event.get(endTime) == 0) event.remove(endTime);
-                
+
                 return false;
             }
         }
