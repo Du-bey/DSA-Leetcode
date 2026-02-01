@@ -3,38 +3,37 @@ class Solution {
         int n = grid.length;
         int[] dr = {0, -1, -1, -1, 0, 1, 1, 1};
         int[] dc = {-1, -1, 0, 1, 1, 1, 0, -1};
-        Queue<tuple> q = new LinkedList<>();
-        q.add(new tuple(1, 0, 0));
+
         if(grid[0][0] == 1 || grid[n-1][n-1] == 1) return -1;
-        int[][] dis = new int[n][n];
-        for(int[] r : dis){
-            Arrays.fill(r, 100000000);
-        }
-        
+
+        Queue<Tuple> q = new LinkedList<>();
+        q.add(new Tuple(1, 0, 0));
+
         while(!q.isEmpty()){
-            tuple t = q.poll();
+            Tuple t = q.poll();
             int d = t.first;
             int r = t.second;
             int c = t.third;
+
             if(r == n-1 && c == n-1) return d;
 
             for(int i =0;i<8;i++){
-                int newr = r + dr[i];
-                int newc = c + dc[i];
-                if(newr >=0 && newc >=0 && newr <n && newc <n && grid[newr][newc] == 0){
-                    if(dis[newr][newc] > 1 + d){
-                        dis[newr][newc] = 1 + d;
-                        q.add(new tuple(dis[newr][newc], newr, newc));
-                    }
+                int nr = r + dr[i];
+                int nc = c + dc[i];
+
+                if(nr >=0 && nc >=0 && nr <n && nc < n && grid[nr][nc] == 0){
+                    grid[nr][nc] = 1;
+                    q.add(new Tuple(d+1, nr, nc));
                 }
             }
         }
         return -1;
     }
 }
-class tuple {
+
+class Tuple {
     int first, second, third;
-    tuple(int _first, int _second, int _third) {
+    Tuple(int _first, int _second, int _third) {
         this.first = _first;
         this.second = _second;
         this.third = _third;
