@@ -1,10 +1,23 @@
 class Solution {
     public int minimumCost(int[] nums) {
-        int first = nums[0];
-        Arrays.sort(nums);
-        int a = nums[0];
-        int b = nums[1];
-        int c = Math.max(nums[2], first);
+        int a = 51, b = 51, c = 51;
+        
+        for(int x : nums){
+            if(x <= a){
+                c = b;
+                b = a;
+                a = x;
+            }
+            else if(x <= b){
+                c = b;
+                b = x;
+            }
+            else if(x <= c){
+                c = x;
+            }
+        }
+
+        c = Math.max(c, nums[0]);
 
         return a + b + c;
     }
