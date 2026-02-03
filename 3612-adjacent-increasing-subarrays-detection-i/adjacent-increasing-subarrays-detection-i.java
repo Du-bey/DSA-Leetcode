@@ -2,19 +2,20 @@ class Solution {
     public boolean hasIncreasingSubarrays(List<Integer> nums, int k) {
         int n = nums.size();
 
-        for(int i = 0;i + 2*k <=n;i++){
-            boolean a = check(i, i+k, nums);
-            boolean b = check(i+k, i+2*k, nums);
-            if(a && b) return true;
+        int crun = 1;
+        int prun = 0;
+
+        for(int i =1;i<n;i++){
+            if(nums.get(i) > nums.get(i-1)){
+                crun++;
+            }
+            else{
+                prun = crun;
+                crun = 1;
+            }
+            if(crun >= 2 *k) return true;
+            if(Math.min(crun, prun) >= k) return true;
         }
         return false;
-    }
-
-    public boolean check(int i, int j, List<Integer> nums){
-
-        for(int ind = i + 1 ; ind < j ; ind++){
-            if(nums.get(ind) <= nums.get(ind - 1)) return false;
-        }
-        return true;
     }
 }
