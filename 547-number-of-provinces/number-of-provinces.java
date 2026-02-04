@@ -1,46 +1,84 @@
 class Solution {
     public int findCircleNum(int[][] isConnected) {
-        List<List<Integer>> adj = new ArrayList<>();
         int n = isConnected.length;
-
-        for(int i = 0;i<n;i++){
-            adj.add(new ArrayList<>());
-        }
-
-        for(int i = 0;i<n;i++){
-            for(int j = 0;j<n;j++){
+        DisjointSet ds = new DisjointSet(n);
+        for(int i =0;i<n;i++){
+            for(int j =0;j<n;j++){
                 if(isConnected[i][j] == 1){
-                    adj.get(i).add(j);
-                    adj.get(j).add(i);
+                    ds.unionBySize(i, j);
                 }
             }
         }
-
-        boolean[] vis = new boolean[n];
-
-        int cnt = 0;
-        for(int i = 0;i<n;i++){
-            if(!vis[i]){
-                cnt++;
-                bfs(i, vis, adj);
+        int ans = 0;
+        for(int i =0;i<n;i++){
+            if(ds.findUPar(i) == i){
+                ans++;
             }
         }
-        return cnt;
+        return ans;
+    }
+}
+
+class DisjointSet{
+    int[] par;
+    int[] rank;
+    int[] size;
+
+    public DisjointSet(int n){
+        par = new int[n];
+        rank = new int[n];
+        size = new int[n];
+
+        for(int i =0;i<n;i++){
+            par[i] = i;
+            rank[i] = 0;
+            size[i] = 1;
+        }
     }
 
-    public void bfs(int u, boolean[] vis, List<List<Integer>> adj){
-        Queue<Integer> q = new LinkedList<>();
-        q.add(u);
-        
-        while(!q.isEmpty()){
-            int node = q.poll();
-            vis[node] = true;
-            for(int v : adj.get(node)){
-                if(!vis[v]){
-                    q.add(v);
-                    vis[v] = true;
-                }
-            }
+    public int findUPar(int u){
+        if(par[u] == u) return u;
+
+        int p = findUPar(par[u]);
+        par[u] = p;
+        return p;
+    }
+
+    public void unionByRank(int u, int v){
+        int upar = findUPar(u);
+        int vpar = findUPar(v);
+        if(upar == vpar) return;
+
+        int ru = rank[upar];
+        int rv = rank[vpar];
+
+        if(ru > rv){
+            par[vpar] = upar;
+        }
+        else if(ru < rv){
+            par[upar] = vpar;
+        }
+        else{
+            par[upar] = vpar;
+            rank[vpar]++;
+        }
+    }
+
+    public void unionBySize(int u, int v){
+        int upar = findUPar(u);
+        int vpar = findUPar(v);
+        if(upar == vpar) return;
+
+        int ru = size[upar];
+        int rv = size[vpar];
+
+        if(ru > rv){
+            par[vpar] = upar;
+            size[upar] += size[vpar];
+        }
+        else{
+            par[upar] = vpar;
+            size[vpar] += size[upar];
         }
     }
 }
