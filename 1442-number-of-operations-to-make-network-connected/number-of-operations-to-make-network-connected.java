@@ -1,31 +1,37 @@
 class Solution {
-    public int makeConnected(int n, int[][] c) {
-        DisjointSet1 ds = new DisjointSet1(n);
+    public int makeConnected(int n, int[][] connections) {
         int extra = 0;
-        for(int[] r: c){
-            int u = r[0];
-            int v = r[1];
-            if(!ds.unionBySize(u, v)) extra++;
+        DisjointSet ds = new DisjointSet(n);
+        for(int[] r : connections){
+            int a = r[0];
+            int b = r[1];
+            if(!ds.unionBySize(a, b)){
+                extra++;
+            }
         }
-        int reqd = 0;
+
+        int c = 0;
         for(int i =0;i<n;i++){
-            if(ds.findUPar(i) == i) reqd++;
+            if(ds.findUPar(i) == i) c++;
         }
-        reqd--;
-        return (extra >= reqd) ? reqd : -1;
+
+        extra++;
+        if(c > extra) return -1;
+        return c - 1;
     }
 }
 
-public class DisjointSet1 {
+class DisjointSet{
     int[] par;
     int[] rank;
     int[] size;
 
-    public DisjointSet1(int n){
-        par =  new int[n];
+    public DisjointSet(int n){
+        par = new int[n];
         rank = new int[n];
         size = new int[n];
-        for(int i= 0;i<n;i++){
+
+        for(int i =0;i<n;i++){
             par[i] = i;
             rank[i] = 0;
             size[i] = 1;
@@ -33,40 +39,48 @@ public class DisjointSet1 {
     }
 
     public int findUPar(int u){
-        int p = par[u];
-        if(p == u) return u;
-        par[u] = findUPar(p);
-        return par[u];
+        if(par[u] == u) return u;
+
+        int p = findUPar(par[u]);
+        par[u] = p;
+        return p;
+    }
+
+    public void unionByRank(int u, int v){
+        int upar = findUPar(u);
+        int vpar = findUPar(v);
+        if(upar == vpar) return;
+
+        int ru = rank[upar];
+        int rv = rank[vpar];
+
+        if(ru > rv){
+            par[vpar] = upar;
+        }
+        else if(ru < rv){
+            par[upar] = vpar;
+        }
+        else{
+            par[upar] = vpar;
+            rank[vpar]++;
+        }
     }
 
     public boolean unionBySize(int u, int v){
         int upar = findUPar(u);
         int vpar = findUPar(v);
         if(upar == vpar) return false;
-        if(size[vpar] > size[upar]){
-            par[upar] = vpar;
-            size[vpar] += size[upar];
-        }
-        else{
+
+        int ru = size[upar];
+        int rv = size[vpar];
+
+        if(ru > rv){
             par[vpar] = upar;
             size[upar] += size[vpar];
         }
-        return true;
-    }
-
-    public boolean unionByRank(int u, int v){
-        int upar = findUPar(u);
-        int vpar = findUPar(v);
-        if(upar == vpar) return false;
-        if(rank[vpar] > rank[upar]){
-            par[upar] = vpar;
-        }
-        else if(rank[vpar] < rank[upar]){
-            par[vpar] = upar;
-        }
         else{
-            par[vpar] = upar;
-            rank[upar]++;
+            par[upar] = vpar;
+            size[vpar] += size[upar];
         }
         return true;
     }
