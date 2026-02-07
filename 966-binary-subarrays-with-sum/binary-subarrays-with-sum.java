@@ -1,21 +1,19 @@
 class Solution {
     public int numSubarraysWithSum(int[] nums, int goal) {
-        return f(nums, goal) - f(nums, goal - 1);
-    }
-
-    public int f(int[] nums, int goal){
-        if(goal < 0) return 0;
         int n = nums.length;
-        int sum = 0;
-        int l = 0;
+
+        HashMap<Integer, Integer> h = new HashMap<>();
+        h.put(0, 1);
+
         int ans = 0;
-        for(int r = 0;r < n;r++){
-            sum += nums[r];
-            while(sum > goal){
-                sum -= nums[l];
-                l++;
+        int sum = 0;
+        for(int x : nums){
+            sum += x;
+            int rem = sum - goal;
+            if(h.containsKey(rem)){
+                ans += h.get(rem);
             }
-            ans += (r - l + 1);
+            h.put(sum, h.getOrDefault(sum, 0) + 1);
         }
         return ans;
     }
