@@ -37,6 +37,7 @@ class Solution {
 
     public int[] dj(List<List<Pair>> adj, int n, int src){
         int[] dis = new int[n];
+        boolean[] vis = new boolean[n];
         Arrays.fill(dis, Integer.MAX_VALUE);
         dis[src] = 0;
 
@@ -48,6 +49,8 @@ class Solution {
             int d = p.a;
             int u = p.b;
 
+            if(vis[u]) continue;
+
             for(Pair p2 : adj.get(u)){
                 int v = p2.a;
                 int edw = p2.b;
@@ -56,6 +59,8 @@ class Solution {
                     pq.add(new Pair(d + edw, v));
                 }
             }
+
+            vis[u] = true;
         }
 
         return dis;
