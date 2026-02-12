@@ -1,15 +1,14 @@
 class Solution {
     public boolean isSubsequence(String s, String t) {
-        int tl = t.length();
-        int sl = s.length();
-        int j = 0;
-        char ss[] = s.toCharArray();
-        char tt[] = t.toCharArray();
-        if(sl == 0) return true;
-        for(int i =0;i<tl;i++){
-            if(ss[j] == tt[i]) j++;
-            if(j == sl) return true;
+        int n = s.length();
+        int m = t.length();
+        int i = n-1;
+        int j = m-1;
+
+        while(i >= 0 && j >= 0){
+            if(s.charAt(i) == t.charAt(j)) i--;
+            j--;
         }
-        return false;
+        return i < 0;
     }
 }
