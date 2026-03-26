@@ -11,27 +11,25 @@ class Solution {
         for(int i = 0;i<n;i++){
             for(int j =0;j<m;j++){
                 rsum[i] += grid[i][j];
-            }
-            sum += rsum[i];
-        }
-
-        for(int j =0;j<m;j++){
-            for(int i = 0;i<n;i++){
                 csum[j] += grid[i][j];
+                sum += grid[i][j];
             }
         }
 
-        long st = rsum[0];
-        for(int i = 1;i<n;i++){
-            if(st == (sum - st)) return true;
+        if(sum % 2 != 0) return false;
+
+        long st = 0;
+        for(int i = 0;i<n-1;i++){
             st += rsum[i];
+            if(st == (sum - st)) return true;
         }
 
-        st = csum[0];
-        for(int j =1;j<m;j++){
+        st = 0;
+        for(int j =0;j<m-1;j++){
+            st += csum[j];
             if(st == (sum - st)) return true;
-            st +=csum[j];
         }
+
         return false;
     }
 }
