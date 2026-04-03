@@ -15,7 +15,6 @@ class Solution {
                 if(h.get(cl) <= 0) h.remove(cl);
                 l++;
             }
-            int len = (r - l + 1);
             boolean pos = true;
             for(int val : h.values()){
                 if(val < k){
@@ -31,7 +30,7 @@ class Solution {
 
     public int longestSubstring(String s, int k) {
         int ans = 0;
-        for(int i =1;i<=26;i++){
+        for(int i =1;i<=Math.min(26, s.length());i++){
             ans = Math.max(ans, longestSubstring(s, k, i));
         }
         return ans;
